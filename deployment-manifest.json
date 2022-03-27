@@ -1,0 +1,15 @@
+{
+    "manifestVersion": 1,
+    "deployments": {
+        "aspNetCoreWeb": [
+        {
+            "name": "ImageColourSwap",
+            "parameters": {
+                "appBundle": "ImageColourSwap.zip",
+                "iisPath": "/",
+                "iisWebSite": "Default Web Site"
+            }
+        }
+        ]
+    }
+}

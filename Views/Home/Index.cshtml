@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="jumbotron">
+    <div class="container centred-text">
+        <h1 class="display-3">Image Colour Swap</h1>
+        <p>A tool for recreating an Image using the Colours from a second Image</p>
+        <p> The Source Image is the Image that will be recreated using only the Colours available in the 'Pallette' Image. 
+            <br/>
+            The Pallette Image will be used as the Source of the Colours to recreate the Source Image. Each and every pixel's Colour in this Image will be used.
+        </p>
+    </div>
+</div>
+
+<div class="container flex-display">
+    <div class="col-md-5 image-card">
+        <h2>Source Image</h2>
+        <canvas class="image-frame" id="source-image">
+        </canvas>
+        <div>
+            <span class="btn btn-secondary btn-file">
+                Choose Source Image<input type='file' id='source-input'/>
+            </span>
+        </div>
+    </div>
+    <div class="col-md-5 image-card">
+        <h2>Pallette Image</h2>
+        <canvas class="image-frame" id="pallette-image">
+        </canvas>
+        <div>
+            <span class="btn btn-secondary btn-file">
+                Choose Pallette Image<input type='file' id='pallette-input'/>
+            </span>
+        </div>
+    </div>
+</div>
+
+<div class="container centred-text">
+    <button class="btn btn-success begin-button" id="begin-button">Begin!</button>
+</div>

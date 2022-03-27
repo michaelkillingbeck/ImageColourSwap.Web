@@ -1,0 +1,66 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.begin-button {
+  width: 20%;
+}
+
+.centred-text {
+  text-align: center;
+}
+
+.flex-display {
+  display: flex;
+}
+
+.image-card {
+  border-style: solid;
+  border-color: lightgray;
+  margin: 50px;
+  padding: 25px;
+  text-align: center;
+}
+
+.image-frame {
+  background-color: #d3d3d32b;
+  height: 250px;
+  margin-bottom: 20px;
+  width: 95%;
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
