@@ -15,7 +15,7 @@ files:
     destination: /webapps/ImageColourSwap
   - source: Web.dll
     destination: /webapps/ImageColourSwap
-  - source: web.runtimeconfig.json
+  - source: Web.runtimeconfig.json
     destination: /webapps/ImageColourSwap/wwwroot
   - source: wwwroot/
     destination: /webapps/ImageColourSwap/wwwroot
