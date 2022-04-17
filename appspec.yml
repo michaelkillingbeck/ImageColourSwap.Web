@@ -1,0 +1,10 @@
+version: 0.1
+os: linux
+files:
+  - source: \
+    destination: /webapps/ImageColourSwap
+file_exists_behavior: OVERWRITE
+hooks:
+  ApplicationStart:
+    - location: Scripts/run.sh
+      timeout: 30
