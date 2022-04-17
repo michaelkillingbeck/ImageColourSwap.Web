@@ -16,7 +16,7 @@ files:
   - source: Web.dll
     destination: /home/ec2-user/ImageColourSwap
   - source: Web.runtimeconfig.json
-    destination: /home/ec2-user/ImageColourSwap/wwwroot
+    destination: /home/ec2-user/ImageColourSwap
   - source: wwwroot/
     destination: /home/ec2-user/ImageColourSwap/wwwroot
 file_exists_behavior: OVERWRITE
