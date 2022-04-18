@@ -21,6 +21,8 @@ files:
     destination: /home/ec2-user/ImageColourSwap/wwwroot
 file_exists_behavior: OVERWRITE
 hooks:
+  BeforeInstall:
+    - location: Scripts/ApplicationStop.sh
   ApplicationStart:
-    - location: Scripts/run.sh
+    - location: Scripts/ApplicationRun.sh
       timeout: 30
