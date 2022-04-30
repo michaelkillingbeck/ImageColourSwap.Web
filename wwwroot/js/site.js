@@ -30,6 +30,16 @@ beginButton.onclick = function(event) {
       });
 }
 
+function disableButton() {
+    beginButton.disabled = true;
+    beginButton.innerHTML = "Loading...";
+}
+
+function enableButton() {
+    beginButton.disabled = false;
+    beginButton.innerHTML = "Begin!";
+}
+
 function loadImage(input, canvas) {
     var file, fr, img;
     
