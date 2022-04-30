@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 
@@ -33,7 +34,8 @@ public class HomeController : Controller
             image.Save(stream, new JpegEncoder());
         }
 
-        var result = await imageSaver.SaveAsync($"{Guid.NewGuid().ToString()}.jpg", stream);
+        var sourceImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
+        var result = await imageSaver.SaveAsync(sourceImageFilename, stream);
 
         stream = new MemoryStream();
         imageBytes = Convert.FromBase64String(palletteImage);
@@ -42,7 +44,13 @@ public class HomeController : Controller
             image.Save(stream, new JpegEncoder());
         }
 
-        result = await imageSaver.SaveAsync($"{Guid.NewGuid().ToString()}.jpg", stream);
+        var palletteImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
+        result = await imageSaver.SaveAsync(palletteImageFilename, stream);
+
+        var httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri("https://9g8n5f9ggi.execute-api.eu-west-2.amazonaws.com");
+        var response = await httpClient.GetAsync($"/Test?palletteImage={palletteImageFilename}&sourceImage={sourceImageFilename}");
+        var s = response.Content.ReadAsStringAsync();
 
         return new OkResult();
     }
