@@ -18,6 +18,8 @@ beginButton.onclick = function(event) {
     var palletteCanvas = document.getElementById("pallette-image");
     var palletteDataString = palletteCanvas.toDataURL("image/png");
 
+    disableButton();
+
     $.ajax({
         type: "POST",
         url: "Home/Save",
@@ -26,6 +28,7 @@ beginButton.onclick = function(event) {
            palletteImage: palletteDataString
         }
       }).done(function(o) {
+        enableButton();
         console.log('saved'); 
       });
 }
