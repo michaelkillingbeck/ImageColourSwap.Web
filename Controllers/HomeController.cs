@@ -93,13 +93,16 @@ public class HomeController : Controller
             var responseString = await response.Content.ReadAsStringAsync();
             var resultsModel = JsonSerializer.Deserialize<ResultsModel>(responseString);
 
+            _logger.LogInformation("Back from Lambda");
+
             var id = Guid.NewGuid();
             TempData[id.ToString()] = JsonSerializer.Serialize(resultsModel);
 
             return StatusCode((int)HttpStatusCode.OK, id);
         }
-        catch(Exception)
+        catch(Exception ex)
         {
+            _logger.LogError(ex.Message);
             return StatusCode((int)HttpStatusCode.InternalServerError); 
         }
     }
