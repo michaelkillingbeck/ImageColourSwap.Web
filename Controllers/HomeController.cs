@@ -20,38 +20,66 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Save(string sourceImage, string palletteImage)
+    [RequestFormLimits(ValueCountLimit = int.MaxValue)]
+    public async Task<IActionResult> Save(IEnumerable<IFormFile> file)
     {
-        var imageSaver = new S3ImageSaver();
-        var stream = new MemoryStream();
-
-        sourceImage = sourceImage.Substring(22);
-        palletteImage = palletteImage.Substring(22);
-
-        byte[] imageBytes = Convert.FromBase64String(sourceImage);
-        using (var image = Image.Load(imageBytes))
+        try
         {
-            image.Save(stream, new JpegEncoder());
+            if(file.Count() != 2)
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest);
+            }
+
+            if(file.ToList()[0].Length <= 0 || file.ToList()[1].Length <= 0)
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest);
+            }
+
+            var imageSaver = new S3ImageSaver();
+            var stream = new MemoryStream();
+
+            byte[] imageBytes;
+            
+            using (MemoryStream ms = new MemoryStream())
+            {
+                file.ToList()[0].CopyTo(ms);
+                imageBytes = ms.ToArray();
+            }
+
+            using (var image = Image.Load(imageBytes))
+            {
+                image.Save(stream, new JpegEncoder());
+            }
+
+            var sourceImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
+            var result = await imageSaver.SaveAsync(sourceImageFilename, stream);
+
+            stream = new MemoryStream();
+            
+            using (MemoryStream ms = new MemoryStream())
+            {
+                file.ToList()[1].CopyTo(ms);
+                imageBytes = ms.ToArray();
+            }
+
+            using (var image = Image.Load(imageBytes))
+            {
+                image.Save(stream, new JpegEncoder());
+            }
+
+            var palletteImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
+            result = await imageSaver.SaveAsync(palletteImageFilename, stream);
+
+            var httpClient = new HttpClient();
+            httpClient.BaseAddress = new Uri("https://9g8n5f9ggi.execute-api.eu-west-2.amazonaws.com");
+            var response = await httpClient.GetAsync($"/Test?palletteImage={palletteImageFilename}&sourceImage={sourceImageFilename}");
+            var s = response.Content.ReadAsStringAsync();
+
+            return new OkResult();
         }
-
-        var sourceImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
-        var result = await imageSaver.SaveAsync(sourceImageFilename, stream);
-
-        stream = new MemoryStream();
-        imageBytes = Convert.FromBase64String(palletteImage);
-        using (var image = Image.Load(imageBytes))
+        catch(Exception)
         {
-            image.Save(stream, new JpegEncoder());
+            return StatusCode((int)HttpStatusCode.InternalServerError); 
         }
-
-        var palletteImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
-        result = await imageSaver.SaveAsync(palletteImageFilename, stream);
-
-        var httpClient = new HttpClient();
-        httpClient.BaseAddress = new Uri("https://9g8n5f9ggi.execute-api.eu-west-2.amazonaws.com");
-        var response = await httpClient.GetAsync($"/Test?palletteImage={palletteImageFilename}&sourceImage={sourceImageFilename}");
-        var s = response.Content.ReadAsStringAsync();
-
-        return new OkResult();
     }
 }

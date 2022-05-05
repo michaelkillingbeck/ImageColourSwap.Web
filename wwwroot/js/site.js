@@ -13,24 +13,31 @@ sourceInputElement.onchange = function(event) {
 }
 
 beginButton.onclick = function(event) {
-    var sourceCanvas = document.getElementById("source-image");
-    var sourceDataString = sourceCanvas.toDataURL("image/png");
-    var palletteCanvas = document.getElementById("pallette-image");
-    var palletteDataString = palletteCanvas.toDataURL("image/png");
+    var formData = new FormData();
+
+    var sourceInput = document.getElementById("source-input");
+    var files = sourceInput.files;
+    formData.append('file', files[0]);
+
+    var palletteInput = document.getElementById("pallette-input");
+    files = palletteInput.files;
+    formData.append('file', files[0]);
 
     disableButton();
 
     $.ajax({
-        type: "POST",
-        url: "Home/Save",
-        data: { 
-           sourceImage: sourceDataString,
-           palletteImage: palletteDataString
-        }
-      }).done(function(o) {
+        url: '/Home/Save',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false
+    }).done(function(response) {
         enableButton();
         console.log('saved'); 
-      });
+    }).fail(function (jqXHR, response) {
+        enableButton();
+        console.log('failed');
+    });
 }
 
 function disableButton() {
