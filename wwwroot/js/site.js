@@ -33,7 +33,7 @@ beginButton.onclick = function(event) {
         contentType: false
     }).done(function(response) {
         enableButton();
-        console.log('saved'); 
+        console.log(response); 
     }).fail(function (jqXHR, response) {
         enableButton();
         console.log('failed');

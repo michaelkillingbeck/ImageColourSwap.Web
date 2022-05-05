@@ -73,9 +73,9 @@ public class HomeController : Controller
             var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("https://9g8n5f9ggi.execute-api.eu-west-2.amazonaws.com");
             var response = await httpClient.GetAsync($"/Test?palletteImage={palletteImageFilename}&sourceImage={sourceImageFilename}");
-            var s = response.Content.ReadAsStringAsync();
+            var responseString = await response.Content.ReadAsStringAsync();
 
-            return new OkResult();
+            return new OkObjectResult(responseString);
         }
         catch(Exception)
         {
