@@ -2,7 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpsRedirection(options => options.HttpsPort = 443);
+//builder.Services.AddHttpsRedirection(options => options.HttpsPort = 443);
 
 var app = builder.Build();
 
@@ -23,6 +23,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.Run();
