@@ -40,6 +40,8 @@ public class HomeController : Controller
     {
         try
         {
+            _logger.LogInformation("Test...");
+
             if(file.Count() != 2)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest);
