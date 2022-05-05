@@ -37,9 +37,31 @@ body {
   text-align: center;
 }
 
+.image-card-results {
+  border-style: solid;
+  border-color: lightgray;
+  margin: 10px;
+  padding: 25px;
+  text-align: center;
+}
+
 .image-frame {
   background-color: #d3d3d32b;
   height: 250px;
+  margin-bottom: 20px;
+  width: 95%;
+}
+
+.image-frame-large {
+  background-color: #d3d3d32b;
+  height: 500px;
+  margin-bottom: 20px;
+  width: 95%;
+}
+
+.image-frame-small {
+  background-color: #d3d3d32b;
+  height: 183px;
   margin-bottom: 20px;
   width: 95%;
 }
@@ -63,4 +85,14 @@ body {
   background: white;
   cursor: inherit;
   display: block;
+}
+
+.results-left {
+  float: left;
+  width: 33%;
+}
+
+.results-right {
+  float: right;
+  width: 67%;
 }

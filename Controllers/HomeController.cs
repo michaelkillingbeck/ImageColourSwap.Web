@@ -1,7 +1,9 @@
 ﻿using System.Net;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
+using Web.Models;
 
 namespace Web.Controllers;
 
@@ -17,6 +19,19 @@ public class HomeController : Controller
     public IActionResult Index()
     {
         return View();
+    }
+
+    public IActionResult Results(string id)
+    {
+        var tempDataString = TempData[id]?.ToString();
+        
+        if(String.IsNullOrEmpty(tempDataString) == false)
+        {
+            var resultsModel = JsonSerializer.Deserialize<ResultsModel>(tempDataString);
+            return View(resultsModel);
+        }
+
+        return RedirectToAction("Index");
     }
 
     [HttpPost]
@@ -74,8 +89,12 @@ public class HomeController : Controller
             httpClient.BaseAddress = new Uri("https://9g8n5f9ggi.execute-api.eu-west-2.amazonaws.com");
             var response = await httpClient.GetAsync($"/Test?palletteImage={palletteImageFilename}&sourceImage={sourceImageFilename}");
             var responseString = await response.Content.ReadAsStringAsync();
+            var resultsModel = JsonSerializer.Deserialize<ResultsModel>(responseString);
 
-            return new OkObjectResult(responseString);
+            var id = Guid.NewGuid();
+            TempData[id.ToString()] = JsonSerializer.Serialize(resultsModel);
+
+            return StatusCode((int)HttpStatusCode.OK, id);
         }
         catch(Exception)
         {

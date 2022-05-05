@@ -33,7 +33,9 @@ beginButton.onclick = function(event) {
         contentType: false
     }).done(function(response) {
         enableButton();
-        console.log(response); 
+        console.log(response);
+
+        window.location.href = "/Home/Results?id=" + response
     }).fail(function (jqXHR, response) {
         enableButton();
         console.log('failed');
