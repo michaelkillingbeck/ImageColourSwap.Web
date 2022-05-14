@@ -23,7 +23,7 @@ beginButton.onclick = function(event) {
     files = palletteInput.files;
     formData.append('file', files[0]);
 
-    disableButton();
+    disableButtons();
 
     $.ajax({
         url: '/Home/Save',
@@ -32,24 +32,28 @@ beginButton.onclick = function(event) {
         processData: false,
         contentType: false
     }).done(function(response) {
-        enableButton();
+        enableButtons();
         console.log(response);
 
         window.location.href = "/Home/Results?id=" + response
     }).fail(function (jqXHR, response) {
-        enableButton();
+        enableButtons();
         console.log('failed');
     });
 }
 
-function disableButton() {
+function disableButtons() {
     beginButton.disabled = true;
     beginButton.innerHTML = "Loading...";
+    palletteInputElement.disabled = true;
+    sourceInputElement.disabled = true;
 }
 
-function enableButton() {
+function enableButtons() {
     beginButton.disabled = false;
     beginButton.innerHTML = "Begin!";
+    palletteInputElement.disabled = false;
+    sourceInputElement.disabled = false;
 }
 
 function loadImage(input, canvas) {
