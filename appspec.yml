@@ -19,6 +19,8 @@ files:
     destination: /home/ec2-user/ImageColourSwap
   - source: wwwroot/
     destination: /home/ec2-user/ImageColourSwap/wwwroot
+  - source: ImageColourSwap.service
+    destination: /home/ec2-user/ImageColourSwap
 file_exists_behavior: OVERWRITE
 hooks:
   BeforeInstall:
