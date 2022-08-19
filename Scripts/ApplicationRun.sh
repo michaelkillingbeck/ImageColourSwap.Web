@@ -5,3 +5,6 @@ export DOTNET_CLI_HOME=/tmp/
 
 cp ImageColourSwap.service /etc/systemd/system/
 sudo systemctl start ImageColourSwap.service
+
+cp ImageColourSwap.conf /etc/nginx/conf.d
+sudo systemctl restart nginx
