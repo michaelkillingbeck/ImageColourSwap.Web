@@ -1,8 +1,8 @@
+cd /home/ec2-user/ImageColourSwap
+
 sudo wget https://dot.net/v1/dotnet-install.sh
 sudo chmod +x ./dotnet-install.sh
 sudo ./dotnet-install.sh
-
-cd /home/ec2-user/ImageColourSwap
 
 export PATH=/home/ec2-user/.dotnet:$PATH
 export DOTNET_CLI_HOME=/tmp/
