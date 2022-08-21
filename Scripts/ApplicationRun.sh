@@ -1,6 +1,8 @@
-sudo /home/ec2-user
+cd /home/ec2-user
 
 touch output.txt
+
+sudo who >> output.txt
 
 sudo wget https://dot.net/v1/dotnet-install.sh >> output.txt
 sudo chmod +x ./dotnet-install.sh >> output.txt
