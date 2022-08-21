@@ -4,7 +4,7 @@ Description=Image Colour Swap
 [Service]
 Environment=ASPNETCORE_ENVIRONMENT=Production
 Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
-ExecStart=/home/ec2-user/.dotnet/dotnet /home/ec2-user/ImageColourSwap/Web.dll
+ExecStart=/usr/bin/dotnet /home/ec2-user/ImageColourSwap/Web.dll
 KillSignal=SIGINT
 SyslogIdentifier=ImageColourSwap
 Restart=always
