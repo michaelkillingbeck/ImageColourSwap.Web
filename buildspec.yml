@@ -2,7 +2,7 @@ version: 0.2
 
 phases:
   install:
-      commands:
+    commands:
       /usr/local/bin/dotnet-install.sh --channel LTS
   pre_build:
     commands:
