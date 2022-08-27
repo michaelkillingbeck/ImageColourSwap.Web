@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      /usr/local/bin/dotnet-install.sh --channel LTS
+  pre_build:
+    commands:
+      dotnet restore "Image Colour Swap.csproj"
+  build:
+    commands:
+      dotnet build "Image Colour Swap.csproj"
+  post_build:
+    commands:
+      dotnet publish --manifest Manifest.xml -o Publish
+artifacts:
+  files:
+    - '**/*'
+  name: 'TestOutput'
+  base-directory: 'Publish'
