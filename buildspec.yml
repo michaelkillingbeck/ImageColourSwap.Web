@@ -2,19 +2,19 @@ version: 0.2
 
 phases:
   install:
-    commands:
+        commands:
       /usr/local/bin/dotnet-install.sh --channel LTS
   pre_build:
     commands:
-      dotnet restore "Image Colour Swap.csproj"
+      dotnet restore Web.csproj
   build:
     commands:
-      dotnet build "Image Colour Swap.csproj"
+      dotnet build Web.csproj
   post_build:
     commands:
-      dotnet publish --manifest Manifest.xml -o Publish
+      ./buildandpackage.sh
 artifacts:
   files:
     - '**/*'
-  name: 'TestOutput'
-  base-directory: 'Publish'
+  name: 'ImageColourSwapWeb'
+  base-directory: 'Site'
