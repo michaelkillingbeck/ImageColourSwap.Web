@@ -2,7 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpsRedirection(options => options.HttpsPort = 443);
+//builder.Services.AddHttpsRedirection(options => options.HttpsPort = 5001);
 
 var app = builder.Build();
 
