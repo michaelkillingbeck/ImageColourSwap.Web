@@ -18,3 +18,5 @@ sudo systemctl start ImageColourSwap.service
 
 cp ImageColourSwap.conf /etc/nginx/conf.d
 sudo systemctl restart nginx
+
+sudo certbot --nginx -d ics.integration.michaelkillingbeck.com --non-interactive --agree-tos -m michael@michaelkillingbeck.co.uk
