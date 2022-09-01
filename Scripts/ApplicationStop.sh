@@ -6,6 +6,6 @@ service_exists() {
         return 1
     fi
 }
-if service_exists test; then
+if service_exists ImageColourSwap; then
     sudo systemctl stop ImageColourSwap.service
 fi
