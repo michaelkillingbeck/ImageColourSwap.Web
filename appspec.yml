@@ -29,4 +29,4 @@ hooks:
     - location: Scripts/ApplicationStop.sh
   ApplicationStart:
     - location: Scripts/ApplicationRun.sh
-      timeout: 30
+      timeout: 60
