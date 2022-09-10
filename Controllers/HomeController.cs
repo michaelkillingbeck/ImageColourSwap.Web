@@ -23,6 +23,8 @@ public class HomeController : Controller
 
     public IActionResult Results(string id)
     {
+        _logger.LogInformation("In results method...");
+
         var tempDataString = TempData[id]?.ToString();
         
         if(String.IsNullOrEmpty(tempDataString) == false)
