@@ -93,6 +93,7 @@ public class HomeController : Controller
             var responseString = await response.Content.ReadAsStringAsync();
             var resultsModel = JsonSerializer.Deserialize<ResultsModel>(responseString);
 
+            _logger.LogInformation(responseString);
             _logger.LogInformation("Back from Lambda");
 
             var id = Guid.NewGuid();
