@@ -88,10 +88,10 @@ public class HomeController : Controller
             result = await imageSaver.SaveAsync(palletteImageFilename, stream);
 
             var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("https://9g8n5f9ggi.execute-api.eu-west-2.amazonaws.com");
+            httpClient.BaseAddress = new Uri("https://96i5clmskc.execute-api.eu-west-2.amazonaws.com");
             _logger.LogInformation($"Pallette Image:{palletteImageFilename}");
             _logger.LogInformation($"Source Image:{sourceImageFilename}");
-            var response = await httpClient.GetAsync($"/Test?palletteImage={palletteImageFilename}&sourceImage={sourceImageFilename}");
+            var response = await httpClient.GetAsync($"/integration?palletteImage={palletteImageFilename}&sourceImage={sourceImageFilename}");
             var responseString = await response.Content.ReadAsStringAsync();
             var resultsModel = JsonSerializer.Deserialize<ResultsModel>(responseString);
 
