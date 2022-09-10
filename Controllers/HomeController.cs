@@ -103,6 +103,7 @@ public class HomeController : Controller
             var id = Guid.NewGuid();
             TempData[id.ToString()] = JsonSerializer.Serialize(resultsModel);
 
+            _logger.LogInformation($"Returning: {id}");
             return StatusCode((int)HttpStatusCode.OK, id);
         }
         catch(Exception ex)
