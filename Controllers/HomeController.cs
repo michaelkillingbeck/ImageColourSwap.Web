@@ -9,10 +9,12 @@ namespace Web.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly IConfiguration _configuration;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IConfiguration configuration, ILogger<HomeController> logger)
     {
+        _configuration = configuration;
         _logger = logger;
     }
 
@@ -42,8 +44,6 @@ public class HomeController : Controller
     {
         try
         {
-            _logger.LogInformation("Test...");
-
             if(file.Count() != 2)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest);
@@ -90,7 +90,8 @@ public class HomeController : Controller
             result = await imageSaver.SaveAsync(palletteImageFilename, stream);
 
             var httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("https://96i5clmskc.execute-api.eu-west-2.amazonaws.com");
+            var url = "https://${_configuration["Settings:ProcessingUri"]}.execute-api.eu-west-2.amazonaws.com"
+            httpClient.BaseAddress = new Uri(url);
             _logger.LogInformation($"Pallette Image:{palletteImageFilename}");
             _logger.LogInformation($"Source Image:{sourceImageFilename}");
             var response = await httpClient.GetAsync($"/integration?palletteImage={palletteImageFilename}&sourceImage={sourceImageFilename}");

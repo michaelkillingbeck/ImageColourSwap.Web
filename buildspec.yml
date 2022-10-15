@@ -6,13 +6,17 @@ phases:
       /usr/local/bin/dotnet-install.sh --channel LTS
   pre_build:
     commands:
+      dotnet nuget add source https://mk-267855555195.d.codeartifact.eu-west-2.amazonaws.com/nuget/Common/v3/index.json
       dotnet restore Web.csproj
+      dotnet tool install jsonsettingsupdater
   build:
     commands:
       dotnet build Web.csproj
   post_build:
     commands:
       ./buildandpackage.sh
+      dotnet new tool-manifest
+      dotnet tool run jsonupdate Site/appsettings.json Integration ProcessingUri
 artifacts:
   files:
     - '**/*'
