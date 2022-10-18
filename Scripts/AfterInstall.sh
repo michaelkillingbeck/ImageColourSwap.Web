@@ -12,6 +12,9 @@ export DOTNET_CLI_HOME=/tmp/
 
 cd ImageColourSwap
 
+sudo dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
+sudo dotnet codeartifact-creds install
+
 sudo dotnet nuget add source -n CommonRepo https://mk-267855555195.d.codeartifact.eu-west-2.amazonaws.com/nuget/Common/v3/index.json
 sudo dotnet new tool-manifest
 sudo dotnet tool install jsonsettingsupdater
