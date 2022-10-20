@@ -91,7 +91,7 @@ public class HomeController : Controller
 
             var httpClient = new HttpClient();
             var uriFromConfig = _configuration["Settings:ProcessingUri"];
-            var url = "https://${uriFromConfig}.execute-api.eu-west-2.amazonaws.com";
+            var url = $"https://{uriFromConfig}.execute-api.eu-west-2.amazonaws.com";
             httpClient.BaseAddress = new Uri(url);
             _logger.LogInformation($"Pallette Image:{palletteImageFilename}");
             _logger.LogInformation($"Source Image:{sourceImageFilename}");
