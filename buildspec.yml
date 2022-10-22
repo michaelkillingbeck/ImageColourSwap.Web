@@ -12,6 +12,12 @@ phases:
       dotnet build Web.csproj
   post_build:
     commands:
+      dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
+      dotnet codeartifact-creds install
+      dotnet nuget add source -n CommonRepo https://mk-267855555195.d.codeartifact.eu-west-2.amazonaws.com/nuget/Common/v3/index.json
+      dotnet new tool-manifest
+      dotnet tool install jsonsettingsupdater
+      dotnet tool run jsonupdate ImageColourSwap/appsettings.json Integration ProcessingUri
       ./buildandpackage.sh
 artifacts:
   files:
