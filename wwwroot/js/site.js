@@ -77,9 +77,9 @@ function loadImage(input, canvas) {
     }
 
     function imageLoaded() {
-        canvas.width = img.width;
-        canvas.height = img.height;
+        canvas.width = 400;
+        canvas.height = 400;
         var ctx = canvas.getContext("2d");
-        ctx.drawImage(img,0,0);
+        ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 400, 400);
     }
 }
