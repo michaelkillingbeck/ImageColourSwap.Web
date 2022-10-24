@@ -45,15 +45,21 @@ beginButton.onclick = function(event) {
 function disableButtons() {
     beginButton.disabled = true;
     beginButton.innerHTML = "Loading...";
+
     palletteInputElement.disabled = true;
+    document.getElementById("pallette-span").classList.add("disabled");
     sourceInputElement.disabled = true;
+    document.getElementById("source-span").classList.add("disabled");
 }
 
 function enableButtons() {
     beginButton.disabled = false;
     beginButton.innerHTML = "Begin!";
+
     palletteInputElement.disabled = false;
+    document.getElementById("pallette-span").classList.remove("disabled");
     sourceInputElement.disabled = false;
+    document.getElementById("source-span").classList.remove("disabled");
 }
 
 function loadImage(input, canvas) {
