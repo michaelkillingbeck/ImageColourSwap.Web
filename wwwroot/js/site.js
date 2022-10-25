@@ -15,13 +15,11 @@ sourceInputElement.onchange = function(event) {
 beginButton.onclick = function(event) {
     var formData = new FormData();
 
-    var sourceInput = document.getElementById("source-input");
-    var files = sourceInput.files;
-    formData.append('file', files[0]);
+    var dataString = document.getElementById("source-image").toDataURL("image/jpeg");
+    formData.append('sourceFile', dataString);
 
-    var palletteInput = document.getElementById("pallette-input");
-    files = palletteInput.files;
-    formData.append('file', files[0]);
+    dataString = document.getElementById("pallette-image").toDataURL("image/jpeg");
+    formData.append('palletteFile', dataString);
 
     disableButtons();
 
