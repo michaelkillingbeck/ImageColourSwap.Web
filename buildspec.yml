@@ -6,21 +6,22 @@ phases:
       dotnet: 6.0
     commands:
       - /usr/local/bin/dotnet-install.sh --channel LTS
+      - dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
+      - dotnet codeartifact-creds install
   pre_build:
     commands:
-      dotnet restore Web.csproj
+      - dotnet nuget add source -n ImageColourSwap https://mk-267855555195.d.codeartifact.eu-west-2.amazonaws.com/nuget/ImageColourSwap/v3/index.json
+      - dotnet restore Web.csproj
   build:
     commands:
       dotnet build Web.csproj
   post_build:
     commands:
-      - dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
-      - dotnet codeartifact-creds install
       - dotnet nuget add source -n CommonRepo https://mk-267855555195.d.codeartifact.eu-west-2.amazonaws.com/nuget/Common/v3/index.json
       - dotnet new tool-manifest
       - dotnet tool install jsonsettingsupdater
-      - dotnet tool run jsonupdate ImageColourSwap/appsettings.json Integration ProcessingUri
       - ./buildandpackage.sh
+      - dotnet tool run jsonupdate Site/appsettings.json Integration ProcessingUri
 artifacts:
   files:
     - '**/*'

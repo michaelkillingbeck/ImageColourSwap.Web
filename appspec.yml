@@ -23,6 +23,8 @@ files:
     destination: /home/ec2-user/ImageColourSwap
   - source: ImageColourSwap.conf
     destination: /home/ec2-user/ImageColourSwap
+  - source: "Image Colour Swap.dll"
+    destination: /home/ec2-user/ImageColourSwap
 file_exists_behavior: OVERWRITE
 hooks:
   BeforeInstall:
