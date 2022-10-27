@@ -1,4 +1,10 @@
+using Image_Colour_Swap.Interfaces;
+using Web;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IImageLoader, ImageSharpImageLoader>();
+builder.Services.AddScoped<IImageSaver, S3ImageSaver>();
 
 builder.Services.AddControllersWithViews();
 

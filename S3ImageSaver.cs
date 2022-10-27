@@ -1,11 +1,12 @@
-using System.Net;
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Image_Colour_Swap.Interfaces;
+using System.Net;
 
 namespace Web;
 
-public class S3ImageSaver
+public class S3ImageSaver : IImageSaver
 {
     public AmazonS3Client _client;
 

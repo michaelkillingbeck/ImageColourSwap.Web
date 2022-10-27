@@ -33,7 +33,7 @@ beginButton.onclick = function(event) {
         enableButtons();
         console.log(response);
 
-        window.location.href = "/Home/Results?id=" + response
+        window.location.href = "/Results/Index?id=" + response
     }).fail(function (jqXHR, response) {
         enableButtons();
         console.log('failed');

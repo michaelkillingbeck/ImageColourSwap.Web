@@ -1,4 +1,5 @@
 ﻿using Image_Colour_Swap;
+using Image_Colour_Swap.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
@@ -11,11 +12,18 @@ namespace Web.Controllers;
 public class HomeController : Controller
 {
     private readonly IConfiguration _configuration;
+    private readonly IImageLoader _imageLoader;
+    private readonly IImageSaver _imageSaver;
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(IConfiguration configuration, ILogger<HomeController> logger)
+    public HomeController(IConfiguration configuration, 
+        IImageSaver imageSaver,
+        IImageLoader imageLoader,
+        ILogger<HomeController> logger)
     {
         _configuration = configuration;
+        _imageLoader = imageLoader;
+        _imageSaver = imageSaver;
         _logger = logger;
     }
 
@@ -45,16 +53,13 @@ public class HomeController : Controller
     {
         try
         {
-            var imageSaver = new S3ImageSaver();
-            var imageLoader = new ImageSharpImageLoader();
-
-            var imageStream = imageLoader.GenerateStream(sourceFile);
+            var imageStream = _imageLoader.GenerateStream(sourceFile);
             var sourceImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
-            var result = await imageSaver.SaveAsync(sourceImageFilename, imageStream);
+            var result = await _imageSaver.SaveAsync(sourceImageFilename, imageStream);
 
-            imageStream = imageLoader.GenerateStream(palletteFile);
+            imageStream = _imageLoader.GenerateStream(palletteFile);
             var palletteImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
-            result = await imageSaver.SaveAsync(palletteImageFilename, imageStream);
+            result = await _imageSaver.SaveAsync(palletteImageFilename, imageStream);
 
             var httpClient = new HttpClient();
             var processingUri = _configuration["Settings:ProcessingUri"];
