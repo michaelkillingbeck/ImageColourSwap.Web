@@ -17,6 +17,7 @@ builder.Services.AddScoped<AmazonDynamoDBClient>(provider => {
 });
 builder.Services.AddScoped<IResultsModelMapper<Document>, DynamoDocumentResultsModelMapper>();
 builder.Services.AddScoped<IImageResultsRepository<ResultsModel>, DynamoDbResultsSaver>();
+builder.Services.AddScoped<IUrlGenerator, S3UrlGenerator>();
 
 
 builder.Services.AddControllersWithViews();
