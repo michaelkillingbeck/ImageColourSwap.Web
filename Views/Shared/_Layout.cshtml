@@ -14,6 +14,21 @@
             <div class="container">
                 <a class="navbar-brand">Michael Killingbeck</a>
             </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a href="@Url.Action("Index", "Home")" class="nav-link">
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="@Url.Action("Index", "Gallery")" class="nav-link">
+                            <span>Gallery</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </header>
     <div class="container">
@@ -34,7 +49,6 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

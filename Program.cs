@@ -16,8 +16,10 @@ builder.Services.AddScoped<AmazonDynamoDBClient>(provider => {
     return new AmazonDynamoDBClient(RegionEndpoint.EUWest2);
 });
 builder.Services.AddScoped<IResultsModelMapper<Document>, DynamoDocumentResultsModelMapper>();
-builder.Services.AddScoped<IImageResultsRepository<ResultsModel>, DynamoDbResultsSaver>();
+builder.Services.AddScoped<IImageResultsRepository<ResultsModel>, DynamoDbResultsRepository>();
+builder.Services.AddScoped<IImageResultsRepository<PagedResultsModel>, DynamoDbPagedResultsRepository>();
 builder.Services.AddScoped<IUrlGenerator, S3UrlGenerator>();
+builder.Services.AddScoped<IGalleryResultsService, GalleryResultsService>();
 
 
 builder.Services.AddControllersWithViews();

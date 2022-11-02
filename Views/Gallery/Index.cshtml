@@ -1,0 +1,57 @@
+@model Web.Models.PagedResultsModel
+
+@{
+    ViewData["Title"] = "Gallery";
+}
+
+<div class="jumbotron">
+    <div class="container centred-text">
+        <h1 class="display-3">Image Colour Swap</h1>
+    </div>
+</div>
+
+<div class="container flex-display">
+    @for (int i = 0; i < Math.Min(5, @Model.Results.Count); i++)
+    {
+        <div class="gallery-card">
+            <div class="gallery-input">
+                <img
+                    class="gallery-card-small" 
+                    id="gallery-source-image"
+                    src=@Model.Results[i].SourceImage />
+
+                <img
+                    class="gallery-card-small" 
+                    id="gallery-pallette-image"
+                    src=@Model.Results[i].PalletteImage />
+                </div>
+            
+            <div class="gallery-output" style="display: none;">
+                <img
+                    class="gallery-card-result" 
+                    id="gallery-result-image"
+                    src=@Model.Results[i].OutputImage />
+            </div>
+        </div>
+    }
+</div>
+
+<br />
+
+<div class="container flex-display">
+    <div class="centred-text one-third-width" style="visibility: @(Model.PreviousPage ? "visible" : "hidden")"/>
+        @Html.ActionLink("Previous Page", "Index", "Gallery", new { IsBackwards = true, PageMarkers = @Model.PageMarkers }, new { @class = "btn btn-success" })
+    </div>
+
+    <div class="centred-text one-third-width">
+        @Html.ActionLink("Return to Image Selection", "Index", "Home", null, new { @class = "btn btn-success" })
+    </div>
+
+    <div class="centred-text one-third-width" style="visibility: @(Model.NextPage ? "visible" : "hidden")"/>
+        @Html.ActionLink("Next Page", "Index", "Gallery", new { IsBackwards = false, PageMarkers = @Model.PageMarkers }, new { @class = "btn btn-success" })
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/js/gallery.js" asp-append-version="true"></script>   
+}

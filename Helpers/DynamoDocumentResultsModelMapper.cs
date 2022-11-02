@@ -6,6 +6,18 @@ namespace Web.Helpers;
 
 public class DynamoDocumentResultsModelMapper : IResultsModelMapper<Document>
 {
+    public IEnumerable<ResultsModel> Convert(IEnumerable<Document> sourceCollection)
+    {
+        var returnList = new List<ResultsModel>();
+
+        foreach (var document in sourceCollection)
+        {
+            returnList.Add(Convert(document));
+        }
+
+        return returnList;
+    }
+
     public ResultsModel Convert(Document sourceModel)
     {
         return new ResultsModel
@@ -19,7 +31,8 @@ public class DynamoDocumentResultsModelMapper : IResultsModelMapper<Document>
     public Document ConvertFrom(ResultsModel resultsModel)
     {
         Document document = new Document();
-        document["Id"] = resultsModel.Id;
+        document["Id"] = ResultsModel.Id;
+        document["ResultsId"] = resultsModel.ResultsId;
         document["pallette"] = resultsModel.PalletteImage;
         document["result"] = resultsModel.OutputImage;
         document["source"] = resultsModel.SourceImage;

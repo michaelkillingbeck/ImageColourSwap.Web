@@ -68,11 +68,16 @@ public class HomeController : Controller
             _logger.LogInformation(responseString);
             _logger.LogInformation("Back from Lambda");
 
-            resultsModel.Id = Guid.NewGuid().ToString();
-            var b = _resultsRepository.SaveResults(resultsModel);
+            if(resultsModel != null)
+            {
+                resultsModel.ResultsId = Guid.NewGuid().ToString();
+                var saveResult = await _resultsRepository.SaveResults(resultsModel);
 
-            _logger.LogInformation($"Returning: {resultsModel.Id}");
-            return StatusCode((int)HttpStatusCode.OK, resultsModel.Id);
+                _logger.LogInformation($"Returning: {resultsModel.ResultsId}");
+                return StatusCode((int)HttpStatusCode.OK, resultsModel.ResultsId);
+            }
+
+            return RedirectToAction("Index");
         }
         catch(Exception ex)
         {

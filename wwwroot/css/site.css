@@ -21,6 +21,27 @@ body {
   width: 20%;
 }
 
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
 .centred-text {
   text-align: center;
 }
@@ -66,25 +87,34 @@ body {
   width: 95%;
 }
 
-.btn-file {
-  position: relative;
-  overflow: hidden;
+.gallery-card {
+  border-style: solid;
+  border-color: lightgray;
+  height: 10%;
+  margin-right: 5px;
+  padding: 5px;
+  text-align: center;
+  width: 20%;
 }
 
-.btn-file input[type=file] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  min-width: 100%;
-  min-height: 100%;
-  font-size: 100px;
-  text-align: right;
-  filter: alpha(opacity=0);
-  opacity: 0;
-  outline: none;
-  background: white;
-  cursor: inherit;
-  display: block;
+.gallery-card-small {
+  background-color: #d3d3d32b;
+  height: 50%;
+  margin-bottom: 2px;
+  width: 95%; 
+}
+
+.gallery-card-result {
+  background-color: #d3d3d32b;
+  height: 50%;
+  margin-bottom: 2px;
+  padding-bottom: 48%;
+  padding-top: 48%;
+  width: 95%; 
+}
+
+.one-third-width {
+  width: 33%;
 }
 
 .results-left {
