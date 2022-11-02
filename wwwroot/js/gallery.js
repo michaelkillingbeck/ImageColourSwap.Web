@@ -1,4 +1,4 @@
-var GalleryCardOffHover = function() {
+var galleryCardOffHover = function() {
     var galleryInput = this.querySelector('.gallery-input');
     var galleryOutput = this.querySelector('.gallery-output');
 
@@ -6,7 +6,7 @@ var GalleryCardOffHover = function() {
     galleryOutput.style.display = 'none';
 }
 
-var GalleryCardOnHover = function() {
+var galleryCardOnHover = function() {
     var galleryInput = this.querySelector('.gallery-input');
     var galleryOutput = this.querySelector('.gallery-output');
 
@@ -14,9 +14,13 @@ var GalleryCardOnHover = function() {
     galleryOutput.style.display = 'block';
 }
 
+var navigateToResults = function(id) {
+    window.location.href = "/Results/Index?id=" + id;
+}
+
 var galleryCards = document.getElementsByClassName("gallery-card");
 
 for (var i = 0; i < galleryCards.length; i++) {
-    galleryCards[i].addEventListener('mouseenter', GalleryCardOnHover, false);
-    galleryCards[i].addEventListener('mouseleave', GalleryCardOffHover, false);
+    galleryCards[i].addEventListener('mouseenter', galleryCardOnHover, false);
+    galleryCards[i].addEventListener('mouseleave', galleryCardOffHover, false);
 }

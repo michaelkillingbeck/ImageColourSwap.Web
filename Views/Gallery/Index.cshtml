@@ -13,7 +13,7 @@
 <div class="container flex-display">
     @for (int i = 0; i < Math.Min(5, @Model.Results.Count); i++)
     {
-        <div class="gallery-card">
+        <div class="gallery-card" onclick=navigateToResults("@Model.Results[i].ResultsId")>
             <div class="gallery-input">
                 <img
                     class="gallery-card-small" 

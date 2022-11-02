@@ -24,6 +24,7 @@ public class DynamoDocumentResultsModelMapper : IResultsModelMapper<Document>
         {
             OutputImage = sourceModel["result"],
             PalletteImage = sourceModel["pallette"],
+            ResultsId = sourceModel["ResultsId"],   
             SourceImage = sourceModel["source"],
         };
     }
