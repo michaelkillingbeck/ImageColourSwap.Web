@@ -2,6 +2,7 @@ using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Image_Colour_Swap.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Web;
 using Web.Helpers;
 using Web.Models;
@@ -21,6 +22,12 @@ builder.Services.AddScoped<IImageResultsRepository<PagedResultsModel>, DynamoDbP
 builder.Services.AddScoped<IUrlGenerator, S3UrlGenerator>();
 builder.Services.AddScoped<IGalleryResultsService, GalleryResultsService>();
 
+builder.Services.AddLogging(
+    config => 
+    { 
+        config.AddAWSProvider(builder.Configuration.GetAWSLoggingConfigSection()); 
+        config.SetMinimumLevel(LogLevel.Debug); 
+    });
 
 builder.Services.AddControllersWithViews();
 
