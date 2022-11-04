@@ -3,6 +3,10 @@ os: linux
 files:
   - source: appsettings.json
     destination: /home/ec2-user/ImageColourSwap
+  - source: AWS.Logger.AspNetCore.dll
+    destination: /home/ec2-user/ImageColourSwap
+  - source: AWS.Logger.Core.dll
+    destination: /home/ec2-user/ImageColourSwap
   - source: AWSSDK.Core.dll
     destination: /home/ec2-user/ImageColourSwap
   - source: AWSSDK.DynamoDBv2.dll
