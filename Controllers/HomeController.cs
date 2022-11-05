@@ -46,8 +46,8 @@ public class HomeController : Controller
         try
         {
             _logger.LogInformation("Starting Save action.");
-            _logger.LogInformation($"Source is {sourceFile}");
-            _logger.LogInformation($"Pallette is {palletteFile}");
+            _logger.LogInformation($"Length of Source is {sourceFile.Length}");
+            _logger.LogInformation($"Length of Pallette is {palletteFile.Length}");
 
             var imageStream = _imageLoader.GenerateStream(sourceFile);
             var sourceImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
