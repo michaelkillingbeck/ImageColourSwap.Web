@@ -45,19 +45,19 @@ public class HomeController : Controller
     {
         try
         {
-            _logger.LogInformation("Starting Save action.")
-            _logger.LogInformation($"Source is {sourceFile");
-            _logger.LogInformation($"Pallette is {palletteFile});
+            _logger.LogInformation("Starting Save action.");
+            _logger.LogInformation($"Source is {sourceFile}");
+            _logger.LogInformation($"Pallette is {palletteFile}");
 
             var imageStream = _imageLoader.GenerateStream(sourceFile);
             var sourceImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
             var result = await _imageSaver.SaveAsync(sourceImageFilename, imageStream);
-            _logger.LogInformation($"Source saved as {sourceImageFilename});
+            _logger.LogInformation($"Source saved as {sourceImageFilename}");
 
             imageStream = _imageLoader.GenerateStream(palletteFile);
             var palletteImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
             result = await _imageSaver.SaveAsync(palletteImageFilename, imageStream);
-            _logger.LogInformation($"Pallette saved as {palletteImageFilename});
+            _logger.LogInformation($"Pallette saved as {palletteImageFilename}");
 
             var httpClient = new HttpClient();
             var processingUri = _configuration["Settings:ProcessingUri"];

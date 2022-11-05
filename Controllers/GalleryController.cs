@@ -22,7 +22,7 @@ public class GalleryController : Controller
 
     public async Task<IActionResult> Index(PagedSearchRequest request)
     {    
-        _logger.LogInformation($"In Index, there are {request.PageMarkers.Count} Page Markers.")
+        _logger.LogInformation($"In Index, there are {request.PageMarkers.Count} Page Markers.");
         var model = await _galleryService.GetPage(request);
 
         if(model.Results.ToList().Count > 0)
