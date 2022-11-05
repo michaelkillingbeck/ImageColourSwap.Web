@@ -22,6 +22,7 @@ public class GalleryController : Controller
 
     public async Task<IActionResult> Index(PagedSearchRequest request)
     {    
+        _logger.LogInformation($"In Index, there are {request.PageMarkers.Count} Page Markers.")
         var model = await _galleryService.GetPage(request);
 
         if(model.Results.ToList().Count > 0)
@@ -29,6 +30,7 @@ public class GalleryController : Controller
             return View(model);
         }
 
+        _logger.LogInformation("No results found.");
         return RedirectToAction("Index", "Home");
     }
 }

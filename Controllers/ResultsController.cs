@@ -25,7 +25,7 @@ public class ResultsController : Controller
 
     public async Task<IActionResult> Index(string id)
     {
-        _logger.LogInformation("In results method...");
+        _logger.LogInformation($"In results method, Id is {id}");
         
         var resultsModel = await _imageResultsRepository.LoadResults(id);
 
@@ -38,6 +38,7 @@ public class ResultsController : Controller
             return View(resultsModel);
         }
 
+        _logger.LogInformation("ResultsModel was null.");
         return RedirectToAction("Index", "Home");
     }
 }

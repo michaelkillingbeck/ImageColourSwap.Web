@@ -45,35 +45,39 @@ public class HomeController : Controller
     {
         try
         {
+            _logger.LogInformation("Starting Save action.")
+            _logger.LogInformation($"Source is {sourceFile");
+            _logger.LogInformation($"Pallette is {palletteFile});
+
             var imageStream = _imageLoader.GenerateStream(sourceFile);
             var sourceImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
             var result = await _imageSaver.SaveAsync(sourceImageFilename, imageStream);
+            _logger.LogInformation($"Source saved as {sourceImageFilename});
 
             imageStream = _imageLoader.GenerateStream(palletteFile);
             var palletteImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
             result = await _imageSaver.SaveAsync(palletteImageFilename, imageStream);
+            _logger.LogInformation($"Pallette saved as {palletteImageFilename});
 
             var httpClient = new HttpClient();
             var processingUri = _configuration["Settings:ProcessingUri"];
             var url = $"https://{processingUri}.execute-api.eu-west-2.amazonaws.com";
             httpClient.BaseAddress = new Uri(url);
-
-            _logger.LogInformation($"Pallette Image:{palletteImageFilename}");
-            _logger.LogInformation($"Source Image:{sourceImageFilename}");
+            _logger.LogInformation("Calling Lambda function");
 
             var response = await httpClient.GetAsync($"/Integration?palletteImage={palletteImageFilename}&sourceImage={sourceImageFilename}");
             var responseString = await response.Content.ReadAsStringAsync();
             var resultsModel = JsonSerializer.Deserialize<ResultsModel>(responseString);
 
-            _logger.LogInformation(responseString);
             _logger.LogInformation("Back from Lambda");
+            _logger.LogInformation(responseString);
 
             if(resultsModel != null)
             {
                 resultsModel.ResultsId = Guid.NewGuid().ToString();
                 var saveResult = await _resultsRepository.SaveResults(resultsModel);
-
                 _logger.LogInformation($"Returning: {resultsModel.ResultsId}");
+
                 return StatusCode((int)HttpStatusCode.OK, resultsModel.ResultsId);
             }
 
