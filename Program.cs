@@ -21,15 +21,14 @@ builder.Services.AddScoped<IImageResultsRepository<ResultsModel>, DynamoDbResult
 builder.Services.AddScoped<IImageResultsRepository<PagedResultsModel>, DynamoDbPagedResultsRepository>();
 builder.Services.AddScoped<IUrlGenerator, S3UrlGenerator>();
 builder.Services.AddScoped<IGalleryResultsService, GalleryResultsService>();
-
 builder.Services.AddLogging(
     config => 
     { 
         config.AddAWSProvider(builder.Configuration.GetAWSLoggingConfigSection()); 
         config.SetMinimumLevel(LogLevel.Debug); 
     });
-
 builder.Services.AddControllersWithViews();
+builder.Services.AddCognitoIdentity();
 
 var app = builder.Build();
 
@@ -44,6 +43,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

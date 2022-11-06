@@ -36,9 +36,12 @@
     </div>
 </div>
 
-<div class="container centred-text">
-    <button class="btn btn-success begin-button" id="begin-button">Begin!</button>
-</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="container centred-text">
+        <button class="btn btn-success begin-button" id="begin-button">Begin!</button>
+    </div>
+}
 
 @section scripts {
     <script src="~/js/site.js" asp-append-version="true"></script>

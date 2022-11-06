@@ -27,6 +27,27 @@
                             <span>Gallery</span>
                         </a>
                     </li>
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                                <div class="nav-link no-text-wrap" id="sign-in-div">
+                                    Welcome, @User.Identity.Name!
+                                    <span class="tooltip-text" id="sign-out-tooltip">
+                                        <a href="@Url.Action("SignOut", "Account")" class="nav-link no-text-wrap">
+                                            <span>Sign Out</span>
+                                        </a>
+                                    </span>
+                                </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Account")" class="nav-link no-text-wrap">
+                                <span>Sign In</span>
+                            </a>
+                        </li>    
+                    }
                 </ul>
             </div>
         </nav>

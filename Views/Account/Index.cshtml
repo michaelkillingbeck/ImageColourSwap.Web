@@ -1,0 +1,65 @@
+@model Web.Models.RegisterModel
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="jumbotron">
+    <div class="container centred-text">
+        <h1 class="display-3">Image Colour Swap</h1>
+    </div>
+</div>
+<br />
+<div class="sign-in-container">
+    <div class="sign-in-divs">
+        @using (Html.BeginForm("SignIn", "Account", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-lg-2">Username</div>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(a => a.Username, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-2">Password</div>
+                <div class="col-lg-10">
+                    @Html.PasswordFor(a => a.Password, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="row centred-text">
+                <div class="col-lg-12"><input type="submit" value="Sign In" class="btn btn-success begin-button"></div>
+            </div>
+        }
+    </div>
+    <div class="sign-in-divs">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-lg-2">Email Address</div>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(a => a.EmailAddress, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-2">Username</div>
+                <div class="col-lg-10">
+                    @Html.TextBoxFor(a => a.Username, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-2">Password</div>
+                <div class="col-lg-10">
+                    @Html.PasswordFor(a => a.Password, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="row centred-text">
+                <div class="col-lg-12"><input type="submit" value="Register" class="btn btn-success begin-button"></div>
+            </div>
+        }
+    </div>
+</div>
+<br />

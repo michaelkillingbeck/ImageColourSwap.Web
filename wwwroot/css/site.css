@@ -113,6 +113,10 @@ body {
   width: 95%; 
 }
 
+.no-text-wrap {
+  white-space: nowrap;
+}
+
 .one-third-width {
   width: 33%;
 }
@@ -125,4 +129,35 @@ body {
 .results-right {
   float: right;
   width: 67%;
+}
+
+.sign-in-container {
+  display: flex;
+}
+
+.sign-in-divs {
+  padding: 5px;
+  width: 50%;
+}
+
+#sign-in-div:hover #sign-out-tooltip {
+  opacity: 1;
+}
+
+#sign-out-tooltip {
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.tooltip-text {
+  background-color: lightgray;
+  border-radius: 20px;
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  right: 25px;
+  text-align: center;
+  top: 40px;
+  width: 100px;
+  z-index: 2;
 }

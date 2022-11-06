@@ -1,6 +1,7 @@
 ﻿using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
+using Microsoft.AspNetCore.Authorization;
 using Image_Colour_Swap;
 using Image_Colour_Swap.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,7 @@ public class HomeController : Controller
 
     [HttpPost]
     [RequestFormLimits(ValueCountLimit = int.MaxValue)]
+    [Authorize]
     public async Task<IActionResult> Save(string sourceFile, string palletteFile)
     {
         try
