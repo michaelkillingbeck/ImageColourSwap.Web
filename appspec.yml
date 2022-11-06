@@ -21,6 +21,8 @@ files:
     destination: /home/ec2-user/ImageColourSwap
   - source: AWSSDK.DynamoDBv2.dll
     destination: /home/ec2-user/ImageColourSwap
+  - source: AWSSDK.Extensions.NETCore.Setup.dll
+    destination: /home/ec2-user/ImageColourSwap
   - source: AWSSDK.S3.dll
     destination: /home/ec2-user/ImageColourSwap
   - source: SixLabors.ImageSharp.dll
