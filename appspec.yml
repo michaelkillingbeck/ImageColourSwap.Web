@@ -1,6 +1,10 @@
 version: 0.0
 os: linux
 files:
+  - source: Amazon.AspNetCore.Identity.Cognito.dll
+    destination: /home/ec2-user/ImageColourSwap
+  - source: Amazon.Extensions.CognitoAuthentication.dll
+    destination: /home/ec2-user/ImageColourSwap
   - source: appsettings.json
     destination: /home/ec2-user/ImageColourSwap
   - source: AWS.Logger.AspNetCore.dll
