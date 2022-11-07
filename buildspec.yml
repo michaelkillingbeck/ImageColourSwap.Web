@@ -21,10 +21,6 @@ phases:
       - dotnet new tool-manifest
       - dotnet tool install jsonsettingsupdater
       - ./buildandpackage.sh
-      - dotnet tool run jsonupdate Site/appsettings.json Integration Settings ProcessingUri
-      - dotnet tool run jsonupdate Site/appsettings.json Integration AWS UserPoolId
-      - dotnet tool run jsonupdate Site/appsettings.json Integration AWS UserPoolClientId
-      - dotnet tool run jsonupdate Site/appsettings.json Integration AWS UserPoolClientSecret
 artifacts:
   files:
     - '**/*'
