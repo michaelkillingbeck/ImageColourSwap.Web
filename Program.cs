@@ -1,6 +1,10 @@
 using Amazon;
+using Amazon.CognitoIdentityProvider;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.Extensions.CognitoAuthentication;
+using Amazon.Extensions.Configuration.SystemsManager;
+using Amazon.Extensions.NETCore.Setup;
 using Image_Colour_Swap.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Web;
@@ -10,6 +14,11 @@ using Web.Services;
 using Web.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddSystemsManager("/ICS/", new AWSOptions
+{
+    Region = RegionEndpoint.EUWest2
+});
 
 builder.Services.AddScoped<IImageLoader, ImageSharpImageLoader>();
 builder.Services.AddScoped<IImageSaver, S3ImageSaver>();
@@ -28,6 +37,21 @@ builder.Services.AddLogging(
         config.SetMinimumLevel(LogLevel.Debug); 
     });
 builder.Services.AddControllersWithViews();
+
+var cognitoSection = builder.Configuration.GetSection("Cognito");
+var cognitoProvider = new AmazonCognitoIdentityProviderClient();
+var cognitoUserPool = new CognitoUserPool(
+    cognitoSection["UserPoolId"],
+    cognitoSection["UserPoolClientid"],
+    cognitoProvider,
+    cognitoSection["UserPoolClientSecret"]);
+
+builder.Services.Configure<SettingsModel>(
+    builder.Configuration.GetSection("Settings")
+);
+
+builder.Services.AddSingleton<IAmazonCognitoIdentityProvider>(cognitoProvider);
+builder.Services.AddSingleton<CognitoUserPool>(cognitoUserPool);
 builder.Services.AddCognitoIdentity();
 
 var app = builder.Build();

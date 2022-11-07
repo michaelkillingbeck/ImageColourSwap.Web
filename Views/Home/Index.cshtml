@@ -36,11 +36,14 @@
     </div>
 </div>
 
-@if (User.Identity.IsAuthenticated)
+@if (User != null)
 {
-    <div class="container centred-text">
-        <button class="btn btn-success begin-button" id="begin-button">Begin!</button>
-    </div>
+    @if (User?.Identity.IsAuthenticated == true)
+    {
+        <div class="container centred-text">
+            <button class="btn btn-success begin-button" id="begin-button">Begin!</button>
+        </div>
+    }
 }
 
 @section scripts {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Image_Colour_Swap;
 using Image_Colour_Swap.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using System.Net;
@@ -16,23 +17,24 @@ namespace Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly IConfiguration _configuration;
     private readonly IImageLoader _imageLoader;
     private readonly IImageSaver _imageSaver;
     private readonly ILogger<HomeController> _logger;
     private readonly IImageResultsRepository<ResultsModel> _resultsRepository;
+    private readonly SettingsModel _settings;
 
-    public HomeController(IConfiguration configuration, 
+    public HomeController(
         IImageSaver imageSaver,
         IImageLoader imageLoader,
         ILogger<HomeController> logger,
-        IImageResultsRepository<ResultsModel> resultsSaver)
+        IImageResultsRepository<ResultsModel> resultsSaver,
+        IOptions<SettingsModel> settings)
     {
-        _configuration = configuration;
         _imageLoader = imageLoader;
         _imageSaver = imageSaver;
         _logger = logger;
         _resultsRepository = resultsSaver;
+        _settings = settings.Value;
     }
 
     public IActionResult Index()
@@ -62,8 +64,7 @@ public class HomeController : Controller
             _logger.LogInformation($"Pallette saved as {palletteImageFilename}");
 
             var httpClient = new HttpClient();
-            var processingUri = _configuration["Settings:ProcessingUri"];
-            var url = $"https://{processingUri}.execute-api.eu-west-2.amazonaws.com";
+            var url = $"https://{_settings.ProcessingUri}.execute-api.eu-west-2.amazonaws.com";
             httpClient.BaseAddress = new Uri(url);
             _logger.LogInformation("Calling Lambda function");
 
