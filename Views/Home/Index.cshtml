@@ -38,7 +38,7 @@
 
 @if (User != null)
 {
-    @if (User?.Identity.IsAuthenticated == true)
+    @if (User?.Identity?.IsAuthenticated == true)
     {
         <div class="container centred-text">
             <button class="btn btn-success begin-button" id="begin-button">Begin!</button>

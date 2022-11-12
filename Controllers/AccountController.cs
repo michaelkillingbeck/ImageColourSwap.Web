@@ -85,7 +85,7 @@ public class AccountController : Controller
         return RedirectToAction("Index");
     }
 
-    public async Task<IActionResult> SignOut()
+    public async Task<IActionResult> LogOut()
     {
         await _signInManager.SignOutAsync();
         _logger.LogInformation("User logged out.");
