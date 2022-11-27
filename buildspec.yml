@@ -1,5 +1,11 @@
 version: 0.2
 
+env:
+  parameter-store:
+    CODE_ARTIFACT_DOMAIN: /CodeBuild/CodeArtifact/Domain
+    CODE_ARTIFACT_DOMAIN_OWNER: /CodeBuild/CodeArtifact/DomainOwner
+    CODE_ARTIFACT_REPOSITORY: /CodeBuild/CodeArtifact/Repository
+
 phases:
   install:
     runtime-versions:
@@ -10,16 +16,19 @@ phases:
       - dotnet codeartifact-creds install
   pre_build:
     commands:
-      - dotnet nuget add source -n ImageColourSwap https://mk-267855555195.d.codeartifact.eu-west-2.amazonaws.com/nuget/ImageColourSwap/v3/index.json
+      - dotnet nuget add source -n codeartifact $(aws codeartifact get-repository-endpoint 
+        --domain $CODE_ARTIFACT_DOMAIN 
+        --domain-owner $CODE_ARTIFACT_DOMAIN_OWNER 
+        --repository $CODE_ARTIFACT_REPOSITORY 
+        --format nuget 
+        --query repositoryEndpoint 
+        --output text)"v3/index.json"
       - dotnet restore Web.csproj
   build:
     commands:
       dotnet build Web.csproj
   post_build:
     commands:
-      - dotnet nuget add source -n CommonRepo https://mk-267855555195.d.codeartifact.eu-west-2.amazonaws.com/nuget/Common/v3/index.json
-      - dotnet new tool-manifest
-      - dotnet tool install jsonsettingsupdater
       - ./buildandpackage.sh
 artifacts:
   files:

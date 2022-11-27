@@ -1,7 +1,8 @@
 using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
-using Image_Colour_Swap.Interfaces;
+using ImageHelpers.Interfaces;
+using ImageHelpers.Services.ImageSharp;
 using Web.Helpers;
 using Web.Interfaces;
 using Web.Models;
@@ -13,7 +14,7 @@ internal class ServicesBootstrapping
 {
     internal static void AddServices(WebApplicationBuilder builder)
     {
-        builder.Services.AddScoped<IImageLoader, ImageSharpImageLoader>();
+        builder.Services.AddScoped<IImageHandler, ImageSharpImageHandler>();
         builder.Services.AddScoped<IImageSaver, S3ImageSaver>();
         builder.Services.AddScoped<AmazonDynamoDBClient>(provider => {
             return new AmazonDynamoDBClient(RegionEndpoint.EUWest2);

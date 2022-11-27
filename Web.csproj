@@ -14,8 +14,7 @@
     <PackageReference Include="AWS.Logger.AspNetCore" Version="3.3.0" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.100.6" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.8.12" />
-    <PackageReference Include="imagecolourswap" Version="0.0.1.10" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.0" />
+    <PackageReference Include="imagehelpers" Version="0.0.2.3" />
   </ItemGroup>
 
 </Project>

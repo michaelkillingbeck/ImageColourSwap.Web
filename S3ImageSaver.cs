@@ -1,7 +1,7 @@
 using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
-using Image_Colour_Swap.Interfaces;
+using ImageHelpers.Interfaces;
 using Microsoft.Extensions.Options;
 using System.Net;
 using Web.Models;

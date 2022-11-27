@@ -1,4 +1,4 @@
-using Image_Colour_Swap.Interfaces;
+using ImageHelpers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;

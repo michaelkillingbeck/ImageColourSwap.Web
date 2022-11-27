@@ -1,4 +1,4 @@
-using Image_Colour_Swap.Interfaces;
+using ImageHelpers.Interfaces;
 using Web.Interfaces;
 using Web.Models;
 

@@ -2,12 +2,10 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Microsoft.AspNetCore.Authorization;
-using Image_Colour_Swap;
-using Image_Colour_Swap.Interfaces;
+using ImageHelpers;
+using ImageHelpers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
 using System.Net;
 using System.Text.Json;
 using Web.Helpers;
@@ -17,7 +15,7 @@ namespace Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly IImageLoader _imageLoader;
+    private readonly IImageHandler _imageHandler;
     private readonly IImageSaver _imageSaver;
     private readonly ILogger<HomeController> _logger;
     private readonly IImageResultsRepository<ResultsModel> _resultsRepository;
@@ -25,12 +23,12 @@ public class HomeController : Controller
 
     public HomeController(
         IImageSaver imageSaver,
-        IImageLoader imageLoader,
+        IImageHandler imageLoader,
         ILogger<HomeController> logger,
         IImageResultsRepository<ResultsModel> resultsSaver,
         IOptions<SettingsModel> settings)
     {
-        _imageLoader = imageLoader;
+        _imageHandler = imageLoader;
         _imageSaver = imageSaver;
         _logger = logger;
         _resultsRepository = resultsSaver;
@@ -53,12 +51,14 @@ public class HomeController : Controller
             _logger.LogInformation($"Length of Source is {sourceFile.Length}");
             _logger.LogInformation($"Length of Pallette is {palletteFile.Length}");
 
-            var imageStream = _imageLoader.GenerateStream(sourceFile);
+            var imageStream = _imageHandler
+.GenerateStream(sourceFile);
             var sourceImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
             var result = await _imageSaver.SaveAsync(sourceImageFilename, imageStream);
             _logger.LogInformation($"Source saved as {sourceImageFilename}");
 
-            imageStream = _imageLoader.GenerateStream(palletteFile);
+            imageStream = _imageHandler
+.GenerateStream(palletteFile);
             var palletteImageFilename = $"{Guid.NewGuid().ToString()}.jpg";
             result = await _imageSaver.SaveAsync(palletteImageFilename, imageStream);
             _logger.LogInformation($"Pallette saved as {palletteImageFilename}");

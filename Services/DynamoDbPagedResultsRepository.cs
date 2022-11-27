@@ -2,7 +2,7 @@ using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
-using Image_Colour_Swap.Interfaces;
+using ImageHelpers.Interfaces;
 using Web.Interfaces;
 using Web.Models;
 
