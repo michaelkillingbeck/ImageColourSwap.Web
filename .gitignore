@@ -5,6 +5,7 @@ appsettings.Development.json
 bin/*
 Code/bin/*
 Code/obj/*
+Code/Site/
 /obj/*
 /Site/
 *.zip
