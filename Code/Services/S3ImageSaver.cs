@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using System.Net;
 using Web.Models;
 
-namespace Web;
+namespace Web.Services;
 
 public class S3ImageSaver : IImageSaver
 {

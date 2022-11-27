@@ -3,6 +3,8 @@ appsettings.Development.json
 .DS_Store
 .vscode/
 bin/*
+Code/bin/*
+Code/obj/*
 /obj/*
 /Site/
 *.zip

@@ -23,10 +23,10 @@ phases:
         --format nuget 
         --query repositoryEndpoint 
         --output text)"v3/index.json"
-      - dotnet restore Web.csproj
+      - dotnet restore Code/Web.csproj
   build:
     commands:
-      dotnet build Web.csproj
+      dotnet build Code/Web.csproj
   post_build:
     commands:
       - ./buildandpackage.sh
