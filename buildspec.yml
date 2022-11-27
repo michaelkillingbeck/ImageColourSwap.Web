@@ -34,4 +34,4 @@ artifacts:
   files:
     - '**/*'
   name: 'ImageColourSwapWeb'
-  base-directory: 'Site'
+  base-directory: 'Code/Site'
