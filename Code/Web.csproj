@@ -3,6 +3,7 @@
   <PropertyGroup>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>true</IsPackable>
     <Nullable>enable</Nullable>
     <NuspecFile>..\ImageColourSwap.Web.nuspec</NuspecFile>
     <TargetFramework>net6.0</TargetFramework>
