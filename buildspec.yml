@@ -9,7 +9,7 @@ env:
 phases:
   install:
     runtime-versions:
-      dotnet: 6.0
+      dotnet: latest
     commands:
       - /usr/local/bin/dotnet-install.sh --channel LTS
       - dotnet tool install -g AWS.CodeArtifact.NuGet.CredentialProvider
@@ -30,8 +30,4 @@ phases:
   post_build:
     commands:
       - ./buildandpackage.sh
-artifacts:
-  files:
-    - '**/*'
-  name: 'ImageColourSwapWeb'
-  base-directory: 'Code/Site'
+      - dotnet nuget push *.nupkg -s codeartifact --skip-duplicate

@@ -7,3 +7,5 @@ cp ../appspec.yml Site
 cp -r ../CodeDeployScripts/ Site
 cp ../ImageColourSwap.service Site
 cp ../ImageColourSwap.conf Site
+cd ..
+nuget pack ImageColourSwap.Web.nuspec
