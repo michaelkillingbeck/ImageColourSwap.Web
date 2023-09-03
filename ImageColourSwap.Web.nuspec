@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package >
     <files>
-        <file src="Code\Site\**" target="build" />
+        <file src="Code\Site\**" />
     </files>
 </package>
