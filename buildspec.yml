@@ -30,5 +30,5 @@ phases:
   post_build:
     commands:
       - ./buildandpackage.sh
-      - dotnet pack --no-build --no-restore Code/Web.csproj /p:OutputPath=Code/Site -o Code/Nuget
+      - dotnet pack --no-build --no-restore Code/Web.csproj /p:OutputPath=/Site -o Code/Nuget
       - dotnet nuget push Code/Nuget/*.nupkg -s codeartifact --skip-duplicate
