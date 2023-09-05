@@ -32,3 +32,9 @@ phases:
       - ./buildandpackage.sh
       - dotnet pack --no-build --no-restore Code/Web.csproj /p:OutputPath=Site -o Code/Nuget
       - dotnet nuget push Code/Nuget/*.nupkg -s codeartifact --skip-duplicate
+
+artifacts:
+  files:
+    - '*.nupkg'
+  name: 'ImageColourSwapWeb'
+  base-directory: 'Code/Nuget'
