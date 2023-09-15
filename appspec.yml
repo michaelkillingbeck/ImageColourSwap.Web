@@ -1,62 +1,62 @@
 version: 0.0
 os: linux
 files:
-  - source: Amazon.AspNetCore.Identity.Cognito.dll
+  - source: Deployment/Amazon.AspNetCore.Identity.Cognito.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: Amazon.Extensions.CognitoAuthentication.dll
+  - source: Deployment/Amazon.Extensions.CognitoAuthentication.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: Amazon.Extensions.Configuration.SystemsManager.dll
+  - source: Deployment/Amazon.Extensions.Configuration.SystemsManager.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: appsettings.json
+  - source: Deployment/appsettings.json
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWS.Logger.AspNetCore.dll
+  - source: Deployment/AWS.Logger.AspNetCore.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWS.Logger.Core.dll
+  - source: Deployment/AWS.Logger.Core.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWSSDK.AppConfigData.dll
+  - source: Deployment/AWSSDK.AppConfigData.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWSSDK.CloudWatchLogs.dll
+  - source: Deployment/AWSSDK.CloudWatchLogs.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWSSDK.CognitoIdentity.dll 
+  - source: Deployment/AWSSDK.CognitoIdentity.dll 
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWSSDK.CognitoIdentityProvider.dll
+  - source: Deployment/AWSSDK.CognitoIdentityProvider.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWSSDK.Core.dll
+  - source: Deployment/AWSSDK.Core.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWSSDK.DynamoDBv2.dll
+  - source: Deployment/AWSSDK.DynamoDBv2.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWSSDK.Extensions.NETCore.Setup.dll
+  - source: Deployment/AWSSDK.Extensions.NETCore.Setup.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWSSDK.S3.dll
+  - source: Deployment/AWSSDK.S3.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWSSDK.SecurityToken.dll
+  - source: Deployment/AWSSDK.SecurityToken.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: AWSSDK.SimpleSystemsManagement.dll
+  - source: Deployment/AWSSDK.SimpleSystemsManagement.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: SixLabors.ImageSharp.dll
+  - source: Deployment/SixLabors.ImageSharp.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: web.config
+  - source: Deployment/web.config
     destination: /home/ec2-user/ImageColourSwap
-  - source: Web.deps.json
+  - source: Deployment/Web.deps.json
     destination: /home/ec2-user/ImageColourSwap
-  - source: Web.dll
+  - source: Deployment/Web.dll
     destination: /home/ec2-user/ImageColourSwap
-  - source: Web.runtimeconfig.json
+  - source: Deployment/Web.runtimeconfig.json
     destination: /home/ec2-user/ImageColourSwap
-  - source: wwwroot/
+  - source: Deployment/wwwroot/
     destination: /home/ec2-user/ImageColourSwap/wwwroot
-  - source: ImageColourSwap.service
+  - source: Deployment/ImageColourSwap.service
     destination: /home/ec2-user/ImageColourSwap
-  - source: ImageColourSwap.conf
+  - source: Deployment/ImageColourSwap.conf
     destination: /home/ec2-user/ImageColourSwap
-  - source: "ImageHelpers.dll"
+  - source: Deployment/ImageHelpers.dll
     destination: /home/ec2-user/ImageColourSwap
 file_exists_behavior: OVERWRITE
 hooks:
   BeforeInstall:
-    - location: CodeDeployScripts/ApplicationStop.sh
+    - location: Deployment/CodeDeployScripts/ApplicationStop.sh
   AfterInstall:
-    - location: CodeDeployScripts/AfterInstall.sh
+    - location: Deployment/CodeDeployScripts/AfterInstall.sh
   ApplicationStart:
-    - location: CodeDeployScripts/ApplicationRun.sh
+    - location: Deployment/CodeDeployScripts/ApplicationRun.sh
       timeout: 60
