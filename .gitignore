@@ -4,6 +4,7 @@ appsettings.Development.json
 .vscode/
 bin/*
 Code/bin/*
+Code/Nuget/*
 Code/obj/*
 Code/Site/
 /obj/*
