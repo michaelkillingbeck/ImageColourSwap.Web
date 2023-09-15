@@ -25,6 +25,7 @@
     <None Include="Site\*" PackagePath="\Deployment" Pack="true" />
     <None Include="Site\wwwroot\**\*" PackagePath="\Deployment\wwwroot" Pack="true" />
     <None Include="..\CodeDeployScripts\*" PackagePath="\Deployment\CodeDeployScripts" Pack="true" />
+    <None Include="..\appspec.yml" PackagePath="\" Pack="true" />
   </ItemGroup>
 
 </Project>
