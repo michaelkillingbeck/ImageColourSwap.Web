@@ -55,8 +55,6 @@ file_exists_behavior: OVERWRITE
 hooks:
   BeforeInstall:
     - location: Deployment/CodeDeployScripts/ApplicationStop.sh
-  AfterInstall:
-    - location: Deployment/CodeDeployScripts/AfterInstall.sh
   ApplicationStart:
     - location: Deployment/CodeDeployScripts/ApplicationRun.sh
       timeout: 60
