@@ -1,5 +1,7 @@
 cd /home/ec2-user
 
+sudo chmod -R 700 ImageColourSwap/
+
 cd /home/ec2-user/ImageColourSwap
 
 export PATH=/home/ec2-user/.dotnet:$PATH
