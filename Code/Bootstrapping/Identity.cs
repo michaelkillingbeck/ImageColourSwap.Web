@@ -8,20 +8,18 @@ internal class IdentityBootstrapping
 {
     internal static void AddIdentityProvider(WebApplicationBuilder builder)
     {
-        var cognitoSection = builder.Configuration.GetSection("Cognito");
-        var cognitoProvider = new AmazonCognitoIdentityProviderClient();
-        var cognitoUserPool = new CognitoUserPool(
-            cognitoSection["UserPoolId"],
-            cognitoSection["UserPoolClientid"],
-            cognitoProvider,
-            cognitoSection["UserPoolClientSecret"]);
+        CognitoPoolOptionsModel cognitoSection = new CognitoPoolOptionsModel();
+        builder.Configuration.GetSection("Cognito").Bind(cognitoSection);
 
-        builder.Services.Configure<SettingsModel>(
-            builder.Configuration.GetSection("Settings")
-        );
+        AmazonCognitoIdentityProviderClient cognitoProvider = new AmazonCognitoIdentityProviderClient();
+        CognitoUserPool cognitoUserPool = new CognitoUserPool(
+            "eu-west-2_3UJfTGFds",
+            "1em9idp3qmpmcd2ild4jsnd7fp",
+            cognitoProvider,
+            "");
 
         builder.Services.AddSingleton<IAmazonCognitoIdentityProvider>(cognitoProvider);
-        builder.Services.AddSingleton<CognitoUserPool>(cognitoUserPool);
+        builder.Services.AddSingleton(cognitoUserPool);
         builder.Services.AddCognitoIdentity();
     }
 }

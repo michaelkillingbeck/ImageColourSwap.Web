@@ -26,7 +26,8 @@ public class HomeController : Controller
         IImageHandler imageLoader,
         ILogger<HomeController> logger,
         IImageResultsRepository<ResultsModel> resultsSaver,
-        IOptions<SettingsModel> settings)
+        IOptions<SettingsModel> settings,
+        IConfiguration config)
     {
         _imageHandler = imageLoader;
         _imageSaver = imageSaver;
