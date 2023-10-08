@@ -13,10 +13,10 @@ internal class IdentityBootstrapping
 
         AmazonCognitoIdentityProviderClient cognitoProvider = new AmazonCognitoIdentityProviderClient();
         CognitoUserPool cognitoUserPool = new CognitoUserPool(
-            "eu-west-2_3UJfTGFds",
-            "1em9idp3qmpmcd2ild4jsnd7fp",
+            cognitoSection.UserPoolId,
+            cognitoSection.UserPoolClientid,
             cognitoProvider,
-            "");
+            cognitoSection.UserPoolClientSecret);
 
         builder.Services.AddSingleton<IAmazonCognitoIdentityProvider>(cognitoProvider);
         builder.Services.AddSingleton(cognitoUserPool);

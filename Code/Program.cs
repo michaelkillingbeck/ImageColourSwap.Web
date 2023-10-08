@@ -1,5 +1,4 @@
 using Amazon;
-using Amazon.Extensions.Configuration.SystemsManager;
 using Amazon.Extensions.NETCore.Setup;
 using Web.Bootstrapping;
 
