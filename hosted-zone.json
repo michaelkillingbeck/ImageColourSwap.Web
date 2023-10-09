@@ -1,0 +1,14 @@
+{
+    "Comment": "Creating record for ICS",
+    "Changes": [{
+        "Action": "UPSERT",
+            "ResourceRecordSet": {
+            "Name": "ics.integration.michaelkillingbeck.com",
+            "Type": "A",
+            "TTL": 300,
+            "ResourceRecords": [{ 
+                "Value": "null"
+            }]
+        }
+    }]
+}
