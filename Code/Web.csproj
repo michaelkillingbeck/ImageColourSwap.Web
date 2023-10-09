@@ -28,7 +28,7 @@
     <None Include="Site\wwwroot\**\*" PackagePath="\Deployment\wwwroot" Pack="true" />
     <None Include="..\CodeDeployScripts\*" PackagePath="\Deployment\CodeDeployScripts" Pack="true" />
     <None Include="..\appspec.yml" PackagePath="\" Pack="true" />
-    <None Include="..\hostedZone.json" PackagePath="\" Pack="true" />
+    <None Include="..\hosted-zone.json" PackagePath="\" Pack="true" />
   </ItemGroup>
 
 </Project>
