@@ -7,6 +7,7 @@ Code/bin/*
 Code/Nuget/*
 Code/obj/*
 Code/Site/
+nuget.txt
 /obj/*
 /Site/
 *.zip

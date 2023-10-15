@@ -18,6 +18,8 @@ sudo systemctl start ImageColourSwap.service
 cp ImageColourSwap.conf /etc/nginx/conf.d
 sudo systemctl restart nginx
 
+sleep 5
+
 if [ -f '/etc/letsencrypt/ics.integration.michaelkillingbeck.com/fullchain.pem'];
 then
     echo 'certificate exits'
