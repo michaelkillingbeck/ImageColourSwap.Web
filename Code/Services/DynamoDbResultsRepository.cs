@@ -1,4 +1,3 @@
-using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
@@ -8,55 +7,47 @@ using Web.Models;
 
 namespace Web.Services;
 
-public class DynamoDbResultsRepository : IImageResultsRepository<ResultsModel>
+public class DynamoDbResultsRepository(AmazonDynamoDBClient client, IResultsModelMapper<Document> mapper) : IImageResultsRepository<ResultsModel>
 {
-    private readonly AmazonDynamoDBClient _client;
-    private readonly IResultsModelMapper<Document> _mapper;
-
-    public DynamoDbResultsRepository(AmazonDynamoDBClient client, IResultsModelMapper<Document> mapper)
-    {
-        _client = client;
-        _mapper = mapper;
-    }
+    private readonly AmazonDynamoDBClient _client = client;
+    private readonly IResultsModelMapper<Document> _mapper = mapper;
 
     public async Task<ResultsModel> LoadResults(string id)
     {
-        Amazon.DynamoDBv2.DocumentModel.Table table = Table.LoadTable(_client, "ics-test");
-        
-        AttributeValue hashKey = new AttributeValue { S = ResultsModel.Id };
-        AttributeValue sortKey = new AttributeValue { S = id };
+        AttributeValue hashKey = new() { S = ResultsModel.Id };
+        AttributeValue sortKey = new() { S = id };
 
-        Dictionary<string, Condition> keyConditions = new Dictionary<string, Condition>
-        {        
-            { 
+        Dictionary<string, Condition> keyConditions = new()
+        {
+            {
                 "Id",
                 new Condition
                 {
                     ComparisonOperator = "EQ",
-                    AttributeValueList = new List<AttributeValue> { hashKey }
+                    AttributeValueList = [hashKey],
                 }
             },
-            { 
+            {
                 "ResultsId",
                 new Condition
                 {
                     ComparisonOperator = "EQ",
-                    AttributeValueList = new List<AttributeValue> { sortKey }
+                    AttributeValueList = [sortKey],
                 }
-            }
+            },
         };
-        
-        QueryRequest request = new QueryRequest
+
+        QueryRequest request = new()
         {
             KeyConditions = keyConditions,
             Limit = 1,
             TableName = "ics-test",
         };
 
-        var result = await _client.QueryAsync(request);
+        QueryResponse result = await _client.QueryAsync(request);
 
-        var document = new Document();
-        foreach(var kvp in result.Items[0])
+        Document document = [];
+        foreach (KeyValuePair<string, AttributeValue> kvp in result.Items[0])
         {
             document[kvp.Key] = kvp.Value.S;
         }
@@ -65,10 +56,10 @@ public class DynamoDbResultsRepository : IImageResultsRepository<ResultsModel>
     }
 
     public async Task<bool> SaveResults(ResultsModel results)
-    {        
-        Amazon.DynamoDBv2.DocumentModel.Table table = Table.LoadTable(_client, "ics-test");
-        var document = _mapper.ConvertFrom(results);
-        var result = await table.PutItemAsync(document);
+    {
+        Table table = Table.LoadTable(_client, "ics-test");
+        Document document = _mapper.ConvertFrom(results);
+        _ = await table.PutItemAsync(document);
 
         return true;
     }

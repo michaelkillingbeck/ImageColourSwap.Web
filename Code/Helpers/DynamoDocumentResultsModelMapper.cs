@@ -8,9 +8,9 @@ public class DynamoDocumentResultsModelMapper : IResultsModelMapper<Document>
 {
     public IEnumerable<ResultsModel> Convert(IEnumerable<Document> sourceCollection)
     {
-        var returnList = new List<ResultsModel>();
+        List<ResultsModel> returnList = [];
 
-        foreach (var document in sourceCollection)
+        foreach (Document document in sourceCollection)
         {
             returnList.Add(Convert(document));
         }
@@ -24,19 +24,21 @@ public class DynamoDocumentResultsModelMapper : IResultsModelMapper<Document>
         {
             OutputImage = sourceModel["result"],
             PalletteImage = sourceModel["pallette"],
-            ResultsId = sourceModel["ResultsId"],   
+            ResultsId = sourceModel["ResultsId"],
             SourceImage = sourceModel["source"],
         };
     }
 
     public Document ConvertFrom(ResultsModel resultsModel)
     {
-        Document document = new Document();
-        document["Id"] = ResultsModel.Id;
-        document["ResultsId"] = resultsModel.ResultsId;
-        document["pallette"] = resultsModel.PalletteImage;
-        document["result"] = resultsModel.OutputImage;
-        document["source"] = resultsModel.SourceImage;
+        Document document = new()
+        {
+            ["Id"] = ResultsModel.Id,
+            ["ResultsId"] = resultsModel.ResultsId,
+            ["pallette"] = resultsModel.PalletteImage,
+            ["result"] = resultsModel.OutputImage,
+            ["source"] = resultsModel.SourceImage,
+        };
 
         return document;
     }

@@ -1,12 +1,13 @@
 using Amazon;
 using Amazon.Extensions.NETCore.Setup;
 using Web.Bootstrapping;
+using Web.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddSystemsManager("/ICS/", new AWSOptions
 {
-    Region = RegionEndpoint.EUWest2
+    Region = RegionEndpoint.EUWest2,
 });
 
 ServicesBootstrapping.AddServices(builder);
@@ -14,12 +15,15 @@ LoggingBootstrapping.AddLogging(builder);
 builder.Services.AddControllersWithViews();
 IdentityBootstrapping.AddIdentityProvider(builder);
 
-var app = builder.Build();
+builder.Services.Configure<SettingsModel>(
+    builder.Configuration.GetSection("Settings"));
+
+WebApplication app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+    _ = app.UseExceptionHandler("/Home/Error");
+    _ = app.UseHsts();
 }
 
 app.UseHttpsRedirection();

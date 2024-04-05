@@ -4,54 +4,48 @@ using Web.Models;
 
 namespace Web.Services;
 
-public class GalleryResultsService : IGalleryResultsService
+public class GalleryResultsService(
+    IImageResultsRepository<PagedResultsModel> imageResultsRepository,
+    IUrlGenerator urlGenerator) : IGalleryResultsService
 {
-    private readonly IImageResultsRepository<PagedResultsModel> _imageResultsRepository;
-    private readonly IUrlGenerator _urlGenerator;
+    private readonly IImageResultsRepository<PagedResultsModel> _imageResultsRepository = imageResultsRepository;
+    private readonly IUrlGenerator _urlGenerator = urlGenerator;
 
-    public GalleryResultsService(
-        IImageResultsRepository<PagedResultsModel> imageResultsRepository,
-        IUrlGenerator urlGenerator)
+    public async Task<PagedResultsModel> GetPage(PagedSearchRequest request)
     {
-        _imageResultsRepository = imageResultsRepository;
-        _urlGenerator = urlGenerator;
-    }
+        string nextPage = string.Empty;
 
-    public async Task<PagedResultsModel> GetPage(PagedSearchRequest searchRequest)
-    {
-        string nextPage = String.Empty;
-
-        if(searchRequest.IsBackwards == false && searchRequest.PageMarkers.Any())
+        if (!request.IsBackwards && request.PageMarkers.Count == 0)
         {
-            nextPage = searchRequest.PageMarkers.Last();
+            nextPage = request.PageMarkers[^1];
         }
         else
         {
-            if(searchRequest.PageMarkers.Count > 2)
+            if (request.PageMarkers.Count > 2)
             {
-                nextPage = searchRequest.PageMarkers[searchRequest.PageMarkers.Count - 3];
+                nextPage = request.PageMarkers[^3];
             }
         }
 
-        var results = await _imageResultsRepository.LoadResults(nextPage);
+        PagedResultsModel results = await _imageResultsRepository.LoadResults(nextPage);
 
-        if(searchRequest.IsBackwards == true)
+        if (request.IsBackwards)
         {
-            for(int i = 2; i > 0; i--)
+            for (int i = 2; i > 0; i--)
             {
-                if(searchRequest.PageMarkers.Count >= i)
+                if (request.PageMarkers.Count >= i)
                 {
-                    searchRequest.PageMarkers.RemoveAt(searchRequest.PageMarkers.Count - 1);
+                    request.PageMarkers.RemoveAt(request.PageMarkers.Count - 1);
                 }
             }
         }
 
-        searchRequest.PageMarkers.AddRange(results.PageMarkers);
-        results.PageMarkers = searchRequest.PageMarkers;
+        request.PageMarkers.AddRange(results.PageMarkers);
+        results.PageMarkers = request.PageMarkers;
 
-        if(results.Results.ToList().Count > 0)
+        if (results.Results.ToList().Count > 0)
         {
-            foreach (var result in results.Results)
+            foreach (ResultsModel result in results.Results)
             {
                 result.OutputImage = _urlGenerator.GetUrl(result.OutputImage);
                 result.PalletteImage = _urlGenerator.GetUrl(result.PalletteImage);

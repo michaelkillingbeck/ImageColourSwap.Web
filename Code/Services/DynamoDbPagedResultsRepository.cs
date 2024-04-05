@@ -1,4 +1,3 @@
-using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
@@ -8,59 +7,53 @@ using Web.Models;
 
 namespace Web.Services;
 
-public class DynamoDbPagedResultsRepository : IImageResultsRepository<PagedResultsModel>
+public class DynamoDbPagedResultsRepository(AmazonDynamoDBClient client, IResultsModelMapper<Document> mapper) : IImageResultsRepository<PagedResultsModel>
 {
-    private readonly AmazonDynamoDBClient _client;
-    private readonly IResultsModelMapper<Document> _mapper;
+    private readonly AmazonDynamoDBClient _client = client;
+    private readonly IResultsModelMapper<Document> _mapper = mapper;
 
-    public DynamoDbPagedResultsRepository(AmazonDynamoDBClient client, IResultsModelMapper<Document> mapper)
+    public async Task<PagedResultsModel> LoadResults(string id)
     {
-        _client = client;
-        _mapper = mapper;
-    }
+        AttributeValue hashKey = new() { S = ResultsModel.Id };
 
-    public async Task<PagedResultsModel> LoadResults(string nextPage)
-    {
-        Amazon.DynamoDBv2.DocumentModel.Table table = Table.LoadTable(_client, "ics-test");
-        
-        AttributeValue hashKey = new AttributeValue { S = ResultsModel.Id };
-
-        Dictionary<string, Condition> keyConditions = new Dictionary<string, Condition>
-        {        
-            { 
+        Dictionary<string, Condition> keyConditions = new()
+        {
+            {
                 "Id",
                 new Condition
                 {
                     ComparisonOperator = "EQ",
-                    AttributeValueList = new List<AttributeValue> { hashKey }
+                    AttributeValueList = [hashKey],
                 }
-            }
+            },
         };
 
-        QueryRequest request = new QueryRequest
+        QueryRequest request = new()
         {
             KeyConditions = keyConditions,
             Limit = 5,
             TableName = "ics-test",
         };
 
-        if(string.IsNullOrEmpty(nextPage) == false)
+        if (!string.IsNullOrEmpty(id))
         {
-            Dictionary<string, AttributeValue> exclusiveKey = new Dictionary<string, AttributeValue>();
-            exclusiveKey.Add("Id", hashKey);
-            exclusiveKey.Add("ResultsId", new AttributeValue { S = nextPage });
+            Dictionary<string, AttributeValue> exclusiveKey = new()
+            {
+                { "Id", hashKey },
+                { "ResultsId", new AttributeValue { S = id } },
+            };
 
             request.ExclusiveStartKey = exclusiveKey;
         }
 
-        var result = await _client.QueryAsync(request);
+        QueryResponse result = await _client.QueryAsync(request);
 
-        var documentList = new List<Document>();
+        List<Document> documentList = [];
 
-        foreach(var item in result.Items)
+        foreach (Dictionary<string, AttributeValue>? item in result.Items)
         {
-            var document = new Document();
-            foreach(var kvp in item)
+            Document document = [];
+            foreach (KeyValuePair<string, AttributeValue> kvp in item)
             {
                 document[kvp.Key] = kvp.Value.S;
             }
@@ -68,13 +61,13 @@ public class DynamoDbPagedResultsRepository : IImageResultsRepository<PagedResul
             documentList.Add(document);
         }
 
-        var returnModel = new PagedResultsModel
+        PagedResultsModel returnModel = new()
         {
-            NextPage = result.LastEvaluatedKey.Any(),
-            Results = _mapper.Convert(documentList).ToList()
+            NextPage = result.LastEvaluatedKey.Count == 0,
+            Results = _mapper.Convert(documentList).ToList(),
         };
 
-        if(returnModel.NextPage)
+        if (returnModel.NextPage)
         {
             returnModel.PageMarkers.Add(result.LastEvaluatedKey["ResultsId"].S);
         }

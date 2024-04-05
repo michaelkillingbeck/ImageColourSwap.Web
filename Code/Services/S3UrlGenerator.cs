@@ -6,26 +6,21 @@ using Web.Models;
 
 namespace Web.Services;
 
-public class S3UrlGenerator : IUrlGenerator
+public class S3UrlGenerator(IOptions<SettingsModel> settings) : IUrlGenerator
 {
-    private readonly SettingsModel _settings;
-
-    public S3UrlGenerator(IConfiguration configuration, IOptions<SettingsModel> settings)
-    {
-        _settings = settings.Value;
-    }
+    private readonly SettingsModel _settings = settings.Value;
 
     public string GetUrl(string objectName)
     {
-        GetPreSignedUrlRequest request = new GetPreSignedUrlRequest
+        GetPreSignedUrlRequest request = new()
         {
             BucketName = _settings.BucketName,
             Expires = DateTime.UtcNow.AddMinutes(1),
-            Key = objectName
+            Key = objectName,
         };
 
-        AmazonS3Client client = new AmazonS3Client(Amazon.RegionEndpoint.EUWest2);
-        
+        AmazonS3Client client = new(Amazon.RegionEndpoint.EUWest2);
+
         return client.GetPreSignedURL(request);
     }
 }

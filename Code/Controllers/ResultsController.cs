@@ -1,35 +1,27 @@
 using ImageHelpers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Text.Json;
+using Web.Bootstrapping;
 using Web.Interfaces;
 using Web.Models;
 
 namespace Web.Controllers;
 
-public class ResultsController : Controller
+public class ResultsController(
+    IImageResultsRepository<ResultsModel> imageResultsRepository,
+    ILogger<HomeController> logger,
+    IUrlGenerator urlGenerator) : Controller
 {
-    private readonly IImageResultsRepository<ResultsModel> _imageResultsRepository;
-    private readonly ILogger<HomeController> _logger;
-    private readonly IUrlGenerator _urlGenerator;
-
-    public ResultsController(
-        IImageResultsRepository<ResultsModel> imageResultsRepository,
-        ILogger<HomeController> logger,
-        IUrlGenerator urlGenerator)
-    {
-        _imageResultsRepository = imageResultsRepository;
-        _logger = logger;
-        _urlGenerator = urlGenerator;
-    }
+    private readonly IImageResultsRepository<ResultsModel> _imageResultsRepository = imageResultsRepository;
+    private readonly ILogger<HomeController> _logger = logger;
+    private readonly IUrlGenerator _urlGenerator = urlGenerator;
 
     public async Task<IActionResult> Index(string id)
     {
-        _logger.LogInformation($"In results method, Id is {id}");
-        
-        var resultsModel = await _imageResultsRepository.LoadResults(id);
+        _logger.LogInformationMessage($"In results method, Id is {id}");
 
-        if(resultsModel != null)
+        ResultsModel resultsModel = await _imageResultsRepository.LoadResults(id);
+
+        if (resultsModel != null)
         {
             resultsModel.OutputImage = _urlGenerator.GetUrl(resultsModel.OutputImage);
             resultsModel.PalletteImage = _urlGenerator.GetUrl(resultsModel.PalletteImage);
@@ -38,7 +30,7 @@ public class ResultsController : Controller
             return View(resultsModel);
         }
 
-        _logger.LogInformation("ResultsModel was null.");
+        _logger.LogInformationMessage("ResultsModel was null.");
         return RedirectToAction("Index", "Home");
     }
 }

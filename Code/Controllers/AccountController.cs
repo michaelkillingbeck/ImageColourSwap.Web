@@ -1,36 +1,24 @@
 using Amazon.AspNetCore.Identity.Cognito;
-using Amazon.CognitoIdentityProvider;
 using Amazon.Extensions.CognitoAuthentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+using Web.Bootstrapping;
 using Web.Models;
 
 namespace Web.Controllers;
 
 [AllowAnonymous]
-public class AccountController : Controller
+public class AccountController(
+    ILogger<RegisterModel> logger,
+    CognitoUserPool pool,
+    SignInManager<CognitoUser> signInManager,
+    UserManager<CognitoUser> userManager) : Controller
 {
-    private readonly ILogger<RegisterModel> _logger;
-    private readonly CognitoUserPool _pool;
-    private readonly SignInManager<CognitoUser> _signInManager;
-    private readonly CognitoUserManager<CognitoUser>? _userManager;
-
-    public AccountController(
-        ILogger<RegisterModel> logger,
-        CognitoUserPool pool,
-        SignInManager<CognitoUser> signInManager,
-        UserManager<CognitoUser> userManager)
-    {
-        _logger = logger;
-        _pool = pool;
-        _signInManager = signInManager;
-        _userManager = userManager as CognitoUserManager<CognitoUser>;
-    }
+    private readonly ILogger<RegisterModel> _logger = logger;
+    private readonly CognitoUserPool _pool = pool;
+    private readonly SignInManager<CognitoUser> _signInManager = signInManager;
+    private readonly CognitoUserManager<CognitoUser>? _userManager = userManager as CognitoUserManager<CognitoUser>;
 
     public IActionResult Index()
     {
@@ -46,27 +34,27 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterModel registerModel)
     {
-        var user = _pool.GetUser(registerModel.Username);
+        CognitoUser user = _pool.GetUser(registerModel.Username);
         user.Attributes.Add(CognitoAttribute.Email.AttributeName, registerModel.EmailAddress);
 
-        if(_userManager != null)
+        if (_userManager != null)
         {
-            var result = await _userManager.CreateAsync(user, registerModel.Password);
+            IdentityResult result = await _userManager.CreateAsync(user, registerModel.Password);
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("User created a new account with password.");
+                _logger.LogInformationMessage("User created a new account with password.");
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
                 return RedirectToAction("Index", "Home");
             }
 
-            foreach (var error in result.Errors)
+            foreach (IdentityError error in result.Errors)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
-            
+
             return RedirectToAction("Index");
         }
 
@@ -75,10 +63,10 @@ public class AccountController : Controller
 
     public async Task<IActionResult> SignIn(SignInModel signInModel)
     {
-        var result = await _signInManager.PasswordSignInAsync(signInModel.Username, signInModel.Password, true, lockoutOnFailure: false);
+        Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(signInModel.Username, signInModel.Password, true, lockoutOnFailure: false);
         if (result.Succeeded)
         {
-            _logger.LogInformation("User logged in.");
+            _logger.LogInformationMessage("User logged in.");
             return RedirectToAction("Index", "Home");
         }
 
@@ -88,7 +76,7 @@ public class AccountController : Controller
     public async Task<IActionResult> LogOut()
     {
         await _signInManager.SignOutAsync();
-        _logger.LogInformation("User logged out.");
+        _logger.LogInformationMessage("User logged out.");
 
         return RedirectToAction("Index", "Home");
     }
