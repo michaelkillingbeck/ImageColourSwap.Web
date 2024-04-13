@@ -5,6 +5,7 @@ appsettings.Development.json
 bin/*
 Code/bin/*
 Code/Nuget/*
+Code/nuget.config
 Code/obj/*
 Code/Site/
 nuget.txt
