@@ -12,7 +12,7 @@ internal static class LoggingBootstrapping
         LoggerMessage.Define<string>(
             logLevel: LogLevel.Information,
             eventId: 1,
-            formatString: "{Message}}");
+            formatString: "{Message}");
 
     internal static void AddLogging(WebApplicationBuilder builder)
     {

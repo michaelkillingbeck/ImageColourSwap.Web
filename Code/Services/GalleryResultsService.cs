@@ -15,7 +15,7 @@ public class GalleryResultsService(
     {
         string nextPage = string.Empty;
 
-        if (!request.IsBackwards && request.PageMarkers.Count == 0)
+        if (!request.IsBackwards && request.PageMarkers.Count != 0)
         {
             nextPage = request.PageMarkers[^1];
         }
