@@ -63,7 +63,7 @@ public class DynamoDbPagedResultsRepository(AmazonDynamoDBClient client, IResult
 
         PagedResultsModel returnModel = new()
         {
-            NextPage = result.LastEvaluatedKey.Count == 0,
+            NextPage = result.LastEvaluatedKey.Count > 0,
             Results = _mapper.Convert(documentList).ToList(),
         };
 
