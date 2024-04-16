@@ -33,6 +33,9 @@ phases:
       - dotnet pack --no-build --no-restore Code/Web.csproj /p:OutputPath=Site -o Code/Nuget
       - dotnet nuget push Code/Nuget/*.nupkg -s codeartifact --skip-duplicate
       - aws s3 cp Code/Nuget/ s3://imagecolourswap/ImageColourSwapWeb/ --recursive --exclude "*" --include "*.nupkg"
+      - source_version=$(aws s3api list-objects --bucket imagecolourswap --prefix ImageColourSwapWeb/ --query 'sort_by(Contents, &LastModified)[-1].Key' --output text)
+      - deployment_id=$(aws deploy create-deployment --application-name ImageColourSwapWeb --deployment-group Integration --s3-location bucket=imagecolourswap,bundleType=zip,key=$source_version --query deploymentId | tr -d '"')
+      - aws deploy wait deployment-successful --deployment-id $deployment_id
 
 artifacts:
   files:
