@@ -32,6 +32,8 @@ internal static class LoggingBootstrapping
             IConfigurationSection loggingSection = builder.Configuration.GetSection("Logging");
             AWSLoggerConfigSection awsLoggingSection = new(loggingSection);
             awsLoggingSection.Config.Region = "eu-west-2";
+            awsLoggingSection.Config.LogGroup =
+                builder.Environment.EnvironmentName + "/ICS";
 
             _ = builder.Services.AddLogging(
                 config =>
