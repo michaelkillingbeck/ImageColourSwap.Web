@@ -26,7 +26,7 @@ if (!app.Environment.IsDevelopment())
     _ = app.UseHsts();
 }
 
-app.Logger.LogInformation("Environment is : " + app.Environment.EnvironmentName);
+app.Logger.LogInformationMessage("Environment is : " + app.Environment.EnvironmentName);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
